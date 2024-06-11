@@ -15,52 +15,52 @@ from MonthlyPaymentLogic import *
 import MonthlyPaymentLogic as mp
 #from Controller.Controladortablas import WorkersIncomeData
 
-class faileprimarykey(Exception):
+class FailePrimaryKey(Exception):
     pass
 
-class not_exist(Exception):
+class NotExist(Exception):
     pass
 
-class not_found(Exception):
+class NotFound(Exception):
     pass
 
-class updatenotfount(Exception):
+class UpdateNotFound(Exception):
     pass
 
-class Employerinput:
+class EmployerInput:
     """
-    Class to represent input data for an employer.
+    Clase para representar los datos de entrada de un empleador.
 
     Parameters:
     -----------
     name : str
-        Name of the employer.
+        Nombre del empleador.
     id : int
-        Unique identifier for the employer.
+        Identificador único del empleador.
     basic_salary : float
-        Basic salary of the employer.
+        Salario básico del empleador.
     monthly_worked_days : int
-        Number of days the employer worked in a month.
+        Número de días trabajados por el empleador en un mes.
     days_leave : int
-        Number of days the employer took leave.
+        Número de días de permiso tomados por el empleador.
     transportation_allowance : float
-        Allowance for transportation expenses.
+        Subsidio para gastos de transporte.
     daytime_overtime_hours : float
-        Number of overtime hours worked during the daytime.
+        Número de horas extras trabajadas durante el día.
     nighttime_overtime_hours : float
-        Number of overtime hours worked during the nighttime.
+        Número de horas extras trabajadas durante la noche.
     daytime_holiday_overtime_hours : float
-        Number of overtime hours worked during daytime holidays.
+        Número de horas extras trabajadas durante días festivos diurnos.
     nighttime_holiday_overtime_hours : float
-        Number of overtime hours worked during nighttime holidays.
+        Número de horas extras trabajadas durante días festivos nocturnos.
     sick_leave_days : int
-        Number of sick leave days taken by the employer.
+        Número de días de licencia por enfermedad tomados por el empleador.
     health_contribution_percentage : float
-        Percentage of health insurance contribution.
+        Porcentaje de contribución al seguro de salud.
     pension_contribution_percentage : float
-        Percentage of pension contribution.
+        Porcentaje de contribución a la pensión.
     solidarity_pension_fund_contribution_percentage : float
-        Percentage of contribution to the solidarity pension fund.
+        Porcentaje de contribución al fondo de pensiones solidarias.
     """
     def __init__(self,name, id, basic_salary, monthly_worked_days, days_leave, transportation_allowance,
                  daytime_overtime_hours, nighttime_overtime_hours, daytime_holiday_overtime_hours,
@@ -82,19 +82,19 @@ class Employerinput:
         self.pension_contribution_percentage = pension_contribution_percentage
         self.solidarity_pension_fund_contribution_percentage = solidarity_pension_fund_contribution_percentage
     
-    def Isequal(self, dbneon):
+    def is_equal(self, dbneon):
         """
-        Check if two Employerinput instances are equal in all attributes.
+        Verifica si dos instancias de EmployerInput son iguales en todos sus atributos.
 
         Parameters:
         -----------
-        dbneon : Employerinput
-            Another instance of Employerinput to compare with.
+        dbneon : EmployerInput
+            Otra instancia de EmployerInput para comparar.
 
         Raises:
         -------
         AssertionError:
-            If any attribute of the two instances is not equal.
+            Si algún atributo de las dos instancias no es igual.
         """
         assert (self.name == dbneon.name)
         assert (self.id == dbneon.id)
@@ -111,118 +111,116 @@ class Employerinput:
         assert (self.pension_contribution_percentage == dbneon.pension_contribution_percentage)
         assert (self.solidarity_pension_fund_contribution_percentage == dbneon.solidarity_pension_fund_contribution_percentage)
     
+    @staticmethod
     def primary_key(name, id, module):
         """
-        Check if the given name and id combination already exists in the database.
+        Verifica si la combinación de nombre e ID ya existe en la base de datos.
 
         Parameters:
         -----------
         name : str
-            Name of the employer.
+            Nombre del empleador.
         id : int
-            Unique identifier for the employer.
+            Identificador único del empleador.
         module : Module
-            Module containing the QueryWorker function to query the database.
+            Módulo que contiene la función QueryWorker para consultar la base de datos.
 
         Raises:
         -------
-        faileprimarykey:
-            If the given name and id combination already exists in the database.
+        FailePrimaryKey:
+            Si la combinación de nombre e ID ya existe en la base de datos.
         """      
         value = module.QueryWorker(name, id)
         if value is not None:
-            raise faileprimarykey("Ya ingresaste este usuario: {} - {}".format(name, id))
+            raise FailePrimaryKey(f"Ya ingresaste este usuario: {name} - {id}")
         
     @staticmethod
-    def notexist(employer):
+    def not_exist(employer):
         """
-        Check if any attribute of the employer object is None.
+        Verifica si algún atributo del objeto employer es None.
 
         Parameters:
         -----------
-        employer : Employerinput
-            An instance of the Employerinput class.
+        employer : EmployerInput
+            Una instancia de la clase EmployerInput.
 
         Raises:
         -------
-        not_exist:
-            If any attribute of the employer object is None.
+        NotExist:
+            Si algún atributo del objeto employer es None.
         """
-        # Verificar si algún atributo es None
         if any(value is None for value in employer.__dict__.values()):
-            raise not_exist("Falta un valor al crear la clase Employerinput")
+            raise NotExist("Falta un valor al crear la clase EmployerInput")
     
+    @staticmethod
     def valor_presente(atributo):
         """
-        Check if the given attribute is present in the list of expected attributes.
+        Verifica si el atributo dado está presente en la lista de atributos esperados.
 
         Parameters:
         -----------
         atributo : str
-            The name of the attribute to check.
+            El nombre del atributo a verificar.
 
         Raises:
         -------
-        updatenotfount:
-            If the given attribute is not found in the list of expected attributes.
+        UpdateNotFound:
+            Si el atributo dado no se encuentra en la lista de atributos esperados.
         """
-        lista_atributos=parametros_constructor = [
-                                            "name", "id", "basic_salary", "monthly_worked_days", "days_leave", "transportation_allowance",
-                                            "daytime_overtime_hours", "nighttime_overtime_hours", "daytime_holiday_overtime_hours",
-                                            "nighttime_holiday_overtime_hours", "sick_leave_days", "health_contribution_percentage",
-                                            "pension_contribution_percentage", "solidarity_pension_fund_contribution_percentage"]
-        if atributo  not in lista_atributos:
-            raise updatenotfount("no se encuentra el valor para realizar el update")
-    
+        lista_atributos = [
+            "name", "id", "basic_salary", "monthly_worked_days", "days_leave", "transportation_allowance",
+            "daytime_overtime_hours", "nighttime_overtime_hours", "daytime_holiday_overtime_hours",
+            "nighttime_holiday_overtime_hours", "sick_leave_days", "health_contribution_percentage",
+            "pension_contribution_percentage", "solidarity_pension_fund_contribution_percentage"
+        ]
+        if atributo not in lista_atributos:
+            raise UpdateNotFound("No se encuentra el valor para realizar el update")
 
-
-
-
-class Employeroutput():
+class EmployerOutput:
     """
-    Class to represent output data for an employer.
+    Clase para representar los datos de salida de un empleador.
 
     Parameters:
     -----------
     name : str
-        Name of the employer.
+        Nombre del empleador.
     id : int
-        Unique identifier for the employer.
+        Identificador único del empleador.
     basic_salary : float
-        Basic salary of the employer.
+        Salario básico del empleador.
     workdays : int
-        Number of days the employer worked.
+        Número de días trabajados por el empleador.
     sick_leave : int
-        Number of days the employer took sick leave.
+        Número de días de licencia por enfermedad tomados por el empleador.
     transportation_aid : float
-        Financial aid for transportation expenses.
+        Ayuda financiera para gastos de transporte.
     dayshift_extra_hours : float
-        Number of extra hours worked during the day shift.
+        Número de horas extra trabajadas durante el turno diurno.
     nightshift_extra_hours : float
-        Number of extra hours worked during the night shift.
+        Número de horas extra trabajadas durante el turno nocturno.
     dayshift_extra_hours_holidays : float
-        Number of extra hours worked during day shift holidays.
+        Número de horas extra trabajadas durante días festivos en el turno diurno.
     nightshift_extra_hours_holidays : float
-        Number of extra hours worked during night shift holidays.
+        Número de horas extra trabajadas durante días festivos en el turno nocturno.
     leave_days : int
-        Number of leave days taken by the employer.
+        Número de días de permiso tomados por el empleador.
     percentage_health_insurance : float
-        Percentage of health insurance contribution.
+        Porcentaje de contribución al seguro de salud.
     percentage_retirement_insurance : float
-        Percentage of retirement insurance contribution.
+        Porcentaje de contribución al seguro de jubilación.
     percentage_retirement_fund : float
-        Percentage of contribution to retirement fund.
+        Porcentaje de contribución al fondo de jubilación.
     devengado : float
-        Amount earned by the employer.
+        Monto ganado por el empleador.
     deducido : float
-        Amount deducted from the employer's earnings.
+        Monto deducido de las ganancias del empleador.
     amounttopay : float
-        Total amount to be paid to the employer.
+        Monto total a pagar al empleador.
     """
 
-    def __init__(self, name,id,basic_salary, workdays, sick_leave, transportation_aid, dayshift_extra_hours, nightshift_extra_hours,
+    def __init__(self, name, id, basic_salary, workdays, sick_leave, transportation_aid, dayshift_extra_hours, nightshift_extra_hours,
                  dayshift_extra_hours_holidays, nightshift_extra_hours_holidays, leave_days, percentage_health_insurance,
-                 percentage_retirement_insurance, percentage_retirement_fund,devengado,deducido,amounttopay):
+                 percentage_retirement_insurance, percentage_retirement_fund, devengado, deducido, amounttopay):
         self.name = name
         self.id = id
         self.basic_salary = basic_salary
@@ -237,23 +235,23 @@ class Employeroutput():
         self.percentage_health_insurance = percentage_health_insurance
         self.percentage_retirement_insurance = percentage_retirement_insurance
         self.percentage_retirement_fund = percentage_retirement_fund
-        self.devengado=devengado
-        self.deducido=deducido
-        self.amounttopay=amounttopay
+        self.devengado = devengado
+        self.deducido = deducido
+        self.amounttopay = amounttopay
     
-    def Isequivalent(self, dbneon):
+    def is_equivalent(self, dbneon):
         """
-        Check if two Employeroutput instances are equivalent in all attributes.
+        Verifica si dos instancias de EmployerOutput son equivalentes en todos sus atributos.
 
         Parameters:
         -----------
-        dbneon : Employeroutput
-            Another instance of Employeroutput to compare with.
+        dbneon : EmployerOutput
+            Otra instancia de EmployerOutput para comparar.
 
         Returns:
         --------
         bool:
-            True if all attributes are equivalent, False otherwise.
+            True si todos los atributos son equivalentes, False de lo contrario.
         """
         assert (self.name == dbneon.name)
         assert (self.id == dbneon.id)
@@ -274,20 +272,20 @@ class Employeroutput():
         assert (self.amounttopay == dbneon.amounttopay)
         return True
     
-    def employernotfound(query):
+    @staticmethod
+    def employer_not_found(query):
         """
-        Raise an exception if the queried employer is not found.
+        Lanza una excepción si el empleador consultado no se encuentra.
 
         Parameters:
         -----------
         query : object
-            The result of a query operation. If None, it indicates that the employer was not found.
+            El resultado de una operación de consulta. Si es None, indica que no se encontró el empleador.
 
         Raises:
         -------
-        not_found:
-            If the queried employer is not found.
+        NotFound:
+            Si no se encuentra el empleador consultado.
         """
         if query is None:
-            raise not_found("no se ha encontrado su busqueda")   
-            
+            raise NotFound("No se ha encontrado su búsqueda")   
