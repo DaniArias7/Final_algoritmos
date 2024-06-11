@@ -10,7 +10,7 @@ sys.path.append(project_dir)
 # Agregar el directorio 'src' al path para permitir importaciones relativas
 sys.path.append("./src")
 
-from Model.MonthlyPaymentLogic import *
+# Importamos el módulo completo para usar sus miembros
 import Model.MonthlyPaymentLogic as mp
 
 print(f"""
@@ -29,7 +29,7 @@ Para llevar a cabo este cálculo, se utilizan varias constantes:
 - El número de días y horas en un mes se establece en {mp.MONTH_DAYS} días y {mp.MONTH_HOURS} horas.
 - Porcentajes utilizados para calcular contribuciones de seguro de salud, aportes a pensiones, fondos de retiro y licencias por enfermedad:
   - Porcentaje de seguro de salud y aportes a pensiones: {mp.PERCENTAGE_HEALTH_INSURANCE * 100}%
-    - Porcentaje de fondo de retiro: {mp.PERCENTAGE_RETIREMENT_FUND * 100}%
+  - Porcentaje de fondo de retiro: {mp.PERCENTAGE_RETIREMENT_FUND * 100}%
 - Una lista que define los porcentajes de retención salarial en función del salario en UVT.
 """)
 
@@ -90,7 +90,7 @@ def program_start():
         else:
             print("Entrada inválida. Por favor, escriba 'si' o 'no'.")
 
-try :
+try:
     print("¡Hola! Comencemos a calcular el salario de los trabajadores.")
     program_start()
 
