@@ -36,6 +36,10 @@ Ahora bien, también puedes acceder a la segunda tabla, la cual va a contener in
 A esta tabla podrás hacer consultas y ver todo lo referente a los trabajadores.
 """)
 
+# Definir constantes para mensajes de entrada
+MSG_NOMBRE_TRABAJADOR = "Ingresa el nombre del trabajador: "
+MSG_CEDULA_TRABAJADOR = "Ingresa la cédula del trabajador: "
+
 def createtables():
     WorkersIncomeData.Droptable()
     WorkersIncomeData.CreateTable()
@@ -44,8 +48,8 @@ def createtables():
 
 def getemployer():
     "Ingresa la siguiente información del trabajador"
-    name = input("Ingresa el nombre del trabajador: ")
-    id = input("Ingresa la cédula del trabajador: ")
+    name = input(MSG_NOMBRE_TRABAJADOR)
+    id = input(MSG_CEDULA_TRABAJADOR)
     basic_salary = float(input("Ingresa el salario básico del empleado: "))
     monthly_worked_days = int(input("Ingresa el valor de días trabajados por el empleado: ")) 
     days_leave = int(input("Ingresa el número de días de licencia del empleado: "))
@@ -100,8 +104,8 @@ def insert_employer():
     print("Se realizó con éxito la inserción de trabajadores.") 
 
 def query_employees():
-    name = input("Ingresa el nombre del trabajador: ")
-    id = input("Ingresa la cédula del trabajador: ")
+    name = input(MSG_NOMBRE_TRABAJADOR)
+    id = input(MSG_CEDULA_TRABAJADOR)
     
     findemployer = WorkersIncomeData.QueryWorker(name, id)
     
@@ -145,8 +149,8 @@ def obtener_significado(valor):
     return significados.get(valor, "Valor desconocido")
 
 def update_employer():
-    name = input("Ingresa el nombre del empleado: ")
-    id = input("Ingresa la cédula del trabajador: ")
+    name = input(MSG_NOMBRE_TRABAJADOR)
+    id = input(MSG_CEDULA_TRABAJADOR)
     print("""
     Columnas que puedes cambiar:
     - Salario básico
@@ -169,13 +173,13 @@ def update_employer():
     WorkersIncomeData.Update(name, id, key_update=key_update, value_update=value_update)
 
 def delete_employer():
-    name = input("Ingresa el nombre del trabajador: ")
-    id = input("Ingresa la cédula del trabajador: ")
+    name = input(MSG_NOMBRE_TRABAJADOR)
+    id = input(MSG_CEDULA_TRABAJADOR)
     WorkersIncomeData.DeleteWorker(name, id)
 
 def query_employees_page():
-    name = input("Ingresa el nombre del trabajador: ")
-    id = input("Ingresa la cédula del trabajador: ")
+    name = input(MSG_NOMBRE_TRABAJADOR)
+    id = input(MSG_CEDULA_TRABAJADOR)
     findemployer = WorkersoutputsData.QueryWorker(name, id)
     
     data_series = pd.Series({
