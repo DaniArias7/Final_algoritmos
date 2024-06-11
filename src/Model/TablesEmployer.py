@@ -8,10 +8,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(current_dir, ".."))
 # Agregamos el directorio principal del proyecto al sys.path
 sys.path.append(project_dir)
-# Ahora podemos importar los módulos del proyecto
-# from MonthlyPaymentLogic import *  # Esta línea no es necesaria
-# import MonthlyPaymentLogic as mp  # Esta línea no es necesaria
-# from Controller.Controladortablas import WorkersIncomeData  # Esta línea está comentada porque no se usa
+# Ahora podemos importar los módulos del proyecto si es necesario
 
 class FailePrimaryKey(Exception):
     pass
