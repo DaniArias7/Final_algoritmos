@@ -26,32 +26,33 @@ import securitydb as st
 
 class WorkersIncomeData:
 
+    @staticmethod
     def GetCursor():
-        """ Establishes connection to the database and returns a cursor for querying """
+        """Establishes connection to the database and returns a cursor for querying"""
         connection = psycopg2.connect(database=st.PGDATABASE, user=st.PGUSER, password=st.PGPASSWORD, host=st.PGHOST, port=st.PGPORT)
-        # All statements are executed through a cursor
         cursor = connection.cursor()
         return cursor
     
-    def CreateTable():
-        """ Creates the user table in the database """
+    @classmethod
+    def CreateTable(cls):
+        """Creates the user table in the database"""
         try:
-            cursor = WorkersIncomeData.GetCursor()
+            cursor = cls.GetCursor()
             cursor.execute("""CREATE TABLE Employerinput(
-                        name varchar(300)  NOT NULL,
+                        name varchar(300) NOT NULL,
                         id varchar(300) PRIMARY KEY NOT NULL,
-                        basic_salary float  NOT NULL , 
-                        monthly_worked_days int  NOT NULL, 
-                        days_leave int  NOT NULL, 
-                        transportation_allowance float  NOT NULL,
-                        daytime_overtime_hours int  NOT NULL, 
-                        nighttime_overtime_hours int  NOT NULL, 
-                        daytime_holiday_overtime_hours int  NOT NULL,
-                        nighttime_holiday_overtime_hours int  NOT NULL, 
-                        sick_leave_days int  NOT NULL, 
-                        health_contribution_percentage float  NOT NULL,
-                        pension_contribution_percentage float  NOT NULL, 
-                        solidarity_pension_fund_contribution_percentage float NOT NULL ); """)
+                        basic_salary float NOT NULL, 
+                        monthly_worked_days int NOT NULL, 
+                        days_leave int NOT NULL, 
+                        transportation_allowance float NOT NULL,
+                        daytime_overtime_hours int NOT NULL, 
+                        nighttime_overtime_hours int NOT NULL, 
+                        daytime_holiday_overtime_hours int NOT NULL,
+                        nighttime_holiday_overtime_hours int NOT NULL, 
+                        sick_leave_days int NOT NULL, 
+                        health_contribution_percentage float NOT NULL,
+                        pension_contribution_percentage float NOT NULL, 
+                        solidarity_pension_fund_contribution_percentage float NOT NULL);""")
             cursor.connection.commit()
         except psycopg2.Error as e:
             print(f"Error creating table: {e}")
@@ -62,10 +63,11 @@ class WorkersIncomeData:
             print(f"Unexpected error: {e}")
             raise e
     
-    def Droptable():
-        """ Drop the 'Employerinput' table if it exists in the database. """
+    @classmethod
+    def Droptable(cls):
+        """Drop the 'Employerinput' table if it exists in the database."""
         try:
-            cursor = WorkersIncomeData.GetCursor()
+            cursor = cls.GetCursor()
             cursor.execute("""DROP TABLE Employerinput""")
             cursor.connection.commit()
         except psycopg2.Error as e:
@@ -77,10 +79,11 @@ class WorkersIncomeData:
             print(f"Unexpected error: {e}")
             raise e
     
-    def Insert(EMPLOYER: Temployer.Employerinput):
-        """ Insert an employer's data into the 'Employerinput' table. """
+    @classmethod
+    def Insert(cls, EMPLOYER: Temployer.Employerinput):
+        """Insert an employer's data into the 'Employerinput' table."""
         try:
-            cursor = WorkersIncomeData.GetCursor()
+            cursor = cls.GetCursor()
             Temployer.Employerinput.primary_key(EMPLOYER.name, EMPLOYER.id, WorkersIncomeData)
             Temployer.Employerinput.notexist(EMPLOYER)
             cursor.execute(f"""INSERT INTO Employerinput (name, id, basic_salary, monthly_worked_days, 
@@ -111,13 +114,12 @@ class WorkersIncomeData:
             print(f"Unexpected error: {e}")
             raise e
     
-    def DeleteWorker(NAME, ID):
-        """ Delete a worker from the 'Employerinput' table based on the provided name and ID. """
+    @classmethod
+    def DeleteWorker(cls, NAME, ID):
+        """Delete a worker from the 'Employerinput' table based on the provided name and ID."""
         try:
-            cursor = WorkersIncomeData.GetCursor()
-            cursor.execute(f"""DELETE 
-                            FROM Employerinput
-                            WHERE name= '{NAME}' AND id='{ID}';""")
+            cursor = cls.GetCursor()
+            cursor.execute(f"""DELETE FROM Employerinput WHERE name= '{NAME}' AND id='{ID}';""")
             cursor.connection.commit()
         except psycopg2.Error as e:
             print(f"Error deleting worker: {e}")
@@ -128,11 +130,12 @@ class WorkersIncomeData:
             print(f"Unexpected error: {e}")
             raise e
     
-    def Update(NAME, ID, KEYUPDATE, VALUEUPDATE):
-        """ Update a worker's data in the 'Employerinput' table. """
+    @classmethod
+    def Update(cls, NAME, ID, KEYUPDATE, VALUEUPDATE):
+        """Update a worker's data in the 'Employerinput' table."""
         try:
             Temployer.Employerinput.valor_presente(KEYUPDATE)
-            cursor = WorkersIncomeData.GetCursor()
+            cursor = cls.GetCursor()
             cursor.execute(f"""UPDATE Employerinput
                             SET {KEYUPDATE} = {VALUEUPDATE}
                             WHERE name= '{NAME}' AND id='{ID}';""")
@@ -148,10 +151,11 @@ class WorkersIncomeData:
             print(f"Unexpected error: {e}")
             raise e
 
-    def QueryWorker(NAME, ID):
-        """ Query the data of a worker from the 'Employerinput' table based on the provided name and ID. """
+    @classmethod
+    def QueryWorker(cls, NAME, ID):
+        """Query the data of a worker from the 'Employerinput' table based on the provided name and ID."""
         try:
-            cursor = WorkersIncomeData.GetCursor()
+            cursor = cls.GetCursor()
             cursor.execute(f"""SELECT * FROM Employerinput WHERE NAME = '{NAME}' AND id = '{ID}';""")
             fila = cursor.fetchone()
         except psycopg2.Error as e:
@@ -183,17 +187,19 @@ class WorkersIncomeData:
             return result
         
 class WorkersoutputsData:
+    
+    @staticmethod
     def GetCursor():
-        """ Establishes connection to the database and returns a cursor for querying """
+        """Establishes connection to the database and returns a cursor for querying"""
         connection = psycopg2.connect(database=st.PGDATABASE, user=st.PGUSER, password=st.PGPASSWORD, host=st.PGHOST, port=st.PGPORT)
-        # All statements are executed through a cursor
         cursor = connection.cursor()
         return cursor
     
-    def CreateTable():
-        """ Creates the user table in the database """
+    @classmethod
+    def CreateTable(cls):
+        """Creates the user table in the database"""
         try:
-            cursor = WorkersoutputsData.GetCursor()
+            cursor = cls.GetCursor()
             cursor.execute("""CREATE TABLE Employeroutput(
                         name varchar(300) NOT NULL,
                         id varchar(300) PRIMARY KEY NOT NULL,
@@ -211,7 +217,7 @@ class WorkersoutputsData:
                         percentage_retirement_fund float NOT NULL, 
                         devengado float NOT NULL,
                         deducido float NOT NULL,  
-                        amounttopay float NOT NULL) ; """)
+                        amounttopay float NOT NULL);""")
             cursor.connection.commit()
         except psycopg2.Error as e:
             print(f"Error creating table: {e}")
@@ -222,10 +228,11 @@ class WorkersoutputsData:
             print(f"Unexpected error: {e}")
             raise e
 
-    def Droptable():
-        """ Drop the 'Employeroutput' table if it exists in the database. """
+    @classmethod
+    def Droptable(cls):
+        """Drop the 'Employeroutput' table if it exists in the database."""
         try:
-            cursor = WorkersoutputsData.GetCursor()
+            cursor = cls.GetCursor()
             cursor.execute("""DROP TABLE Employeroutput""")
             cursor.connection.commit()
         except psycopg2.Error as e:
@@ -237,13 +244,14 @@ class WorkersoutputsData:
             print(f"Unexpected error: {e}")
             raise e
     
-    def PopulateTable():
-        """ Populate the 'Employeroutput' table based on the data from the 'Employerinput' table.
+    @classmethod
+    def PopulateTable(cls):
+        """Populate the 'Employeroutput' table based on the data from the 'Employerinput' table.
 
-            This function retrieves data from the 'Employerinput' table and calculates additional attributes 
-            based on the provided data. It then inserts the calculated data into the 'Employeroutput' table."""
+           This function retrieves data from the 'Employerinput' table and calculates additional attributes 
+           based on the provided data. It then inserts the calculated data into the 'Employeroutput' table."""
         try:
-            cursor = WorkersoutputsData.GetCursor()
+            cursor = cls.GetCursor()
             cursorWorkersIncomeData = WorkersIncomeData.GetCursor()
             cursorWorkersIncomeData.execute("SELECT * FROM Employerinput")
             employers = cursorWorkersIncomeData.fetchall()  # Obtener todas las filas
@@ -287,10 +295,11 @@ class WorkersoutputsData:
             print(f"Unexpected error: {e}")
             raise e
 
-    def QueryWorker(NAME, ID):
-        """ Query the data of a worker from the 'Employeroutput' table based on the provided name and ID. """
+    @classmethod
+    def QueryWorker(cls, NAME, ID):
+        """Query the data of a worker from the 'Employeroutput' table based on the provided name and ID."""
         try:
-            cursor = WorkersoutputsData.GetCursor()
+            cursor = cls.GetCursor()
             cursor.execute(f"""SELECT * FROM Employeroutput WHERE NAME = '{NAME}' AND id = '{ID}';""")
             fila = cursor.fetchone()
         except psycopg2.Error as e:
