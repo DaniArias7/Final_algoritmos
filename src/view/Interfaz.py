@@ -1,6 +1,11 @@
 import sys
 import os
 
+# Constantes
+DESCRIPCION_SCREEN = "Descripción"
+APLICACION_SCREEN = "Aplicación"
+MENU_PRINCIPAL_SCREEN = "Menu Principal"
+
 # Obtener la ruta del directorio actual del script
 current_dir = os.path.dirname(os.path.abspath(__file__))
 # Obtener la ruta del directorio principal del proyecto
@@ -49,10 +54,10 @@ class Mein_menu(Screen):
         self.add_widget(main_layout)
 
     def go_to_tutorial(self, instance):
-        self.manager.current = "Descripción"
+        self.manager.current = DESCRIPCION_SCREEN
 
     def go_to_aplicacion(self, instance):
-        self.manager.current = "Aplicación"
+        self.manager.current = APLICACION_SCREEN
 
 
 class Description(Screen):
@@ -99,10 +104,10 @@ Para llevar a cabo este cálculo, se utilizan varias constantes:
         self.add_widget(header_description)
 
     def go_to_Mein_menu(self, instance):
-        self.manager.current = 'Menu Principal'
+        self.manager.current = MENU_PRINCIPAL_SCREEN
 
     def go_to_aplicacion(self, instance):
-        self.manager.current = "Aplicación"
+        self.manager.current = APLICACION_SCREEN
 
 
 class Aplicacion(Screen):
@@ -130,7 +135,7 @@ class Aplicacion(Screen):
         contenedor.add_widget(self.button_menu)
         self.button_calculator = Button(text="Calcular", on_press=self.result_payment)
         contenedor.add_widget(self.button_calculator)
-        self.button_description = Button(text="Descripción", on_press=self.go_to_description)
+        self.button_description = Button(text=DESCRIPCION_SCREEN, on_press=self.go_to_description)
         contenedor.add_widget(self.button_description)
         imgudm = Image(source=r'\3192b796-96f1-4894-a3f0-98e88584ce1e.png')
         contenedor.add_widget(imgudm)
@@ -225,18 +230,18 @@ class Aplicacion(Screen):
         popup.open()
 
     def go_to_Mein_menu(self, instance):
-        self.manager.current = 'Menu Principal'
+        self.manager.current = MENU_PRINCIPAL_SCREEN
 
     def go_to_description(self, instance):
-        self.manager.current = "Descripción"
+        self.manager.current = DESCRIPCION_SCREEN
 
 
 class NominaCalculator(App):
     def build(self):
         boss_screen = ScreenManager()
-        boss_screen.add_widget(Mein_menu(name="Menu Principal"))
-        boss_screen.add_widget(Description(name="Descripción"))
-        boss_screen.add_widget(Aplicacion(name="Aplicación"))
+        boss_screen.add_widget(Mein_menu(name=MENU_PRINCIPAL_SCREEN))
+        boss_screen.add_widget(Description(name=DESCRIPCION_SCREEN))
+        boss_screen.add_widget(Aplicacion(name=APLICACION_SCREEN))
         return boss_screen
 
 
