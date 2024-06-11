@@ -1,4 +1,4 @@
-#Importacion de blibiotecas
+# Importacion de bibliotecas
 from flask import Flask, render_template, request, redirect, url_for, flash, Blueprint
 import sys
 import os
@@ -34,6 +34,9 @@ WorkersoutputsData.CreateTable()
 app = Flask(__name__)
 # Crear un blueprint para las vistas de usuarios
 blueprint = Blueprint("vista_usuarios", __name__, template_folder="templates")
+
+# Definir una constante para la plantilla "resultado.html"
+RESULT_TEMPLATE = "resultado.html"
 
 # Definir la ruta para la página de inicio
 @blueprint.route("/")
@@ -76,7 +79,7 @@ def crear_usuario():
 
     # Insertar el nuevo empleado en la base de datos
     WorkersIncomeData.Insert(nuevo_empleado)
-    return render_template("resultado.html", user=nuevo_empleado, mensaje="Usuario insertado exitosamente!")
+    return render_template(RESULT_TEMPLATE, user=nuevo_empleado, mensaje="Usuario insertado exitosamente!")
 
 # Definir la ruta para la página de búsqueda de un usuario
 @blueprint.route("/buscar-usuario")
@@ -141,13 +144,13 @@ def actualizar_usuario_result():
             mensaje = "Información del trabajador actualizada exitosamente!"
         else:
             mensaje = "No se encontró ningún trabajador con el nombre y la cédula proporcionados."
-        return render_template("resultado.html", mensaje=mensaje)
+        return render_template(RESULT_TEMPLATE, mensaje=mensaje)
     except Temployer.not_exist as e:
         mensaje = f"Error al actualizar: {str(e)}"
-        return render_template("resultado.html", mensaje=mensaje)
+        return render_template(RESULT_TEMPLATE, mensaje=mensaje)
     except Exception as e:
         mensaje = f"Error inesperado: {str(e)}"
-        return render_template("resultado.html", mensaje=mensaje)
+        return render_template(RESULT_TEMPLATE, mensaje=mensaje)
 
 # Definir la ruta para la página de eliminación de un usuario
 @blueprint.route("/eliminar-usuario")
@@ -169,9 +172,9 @@ def eliminar_usuario_result():
     trabajador = WorkersIncomeData.QueryWorker(nombre, cedula)  # Consultar el trabajador en la base de datos
     if trabajador:
         WorkersIncomeData.DeleteWorker(nombre, cedula)  # Eliminar el trabajador de la base de datos
-        return render_template("resultado.html", mensaje="Trabajador eliminado exitosamente!")
+        return render_template(RESULT_TEMPLATE, mensaje="Trabajador eliminado exitosamente!")
     else:
-        return render_template("resultado.html", mensaje="No se encontró ningún trabajador con el nombre y la cédula proporcionados.")
+        return render_template(RESULT_TEMPLATE, mensaje="No se encontró ningún trabajador con el nombre y la cédula proporcionados.")
     
 # Definir la ruta para la página de cálculo de liquidación
 @blueprint.route("/calcular-liquidacion", methods=["GET"])
@@ -229,11 +232,11 @@ def mostrar_resultado_liquidacion():
                 total_a_pagar=liquidacion  # Total a pagar en la liquidación
             )
         else:
-            return render_template("resultado.html", mensaje="No se encontró ningún trabajador con el nombre y la cédula proporcionados.")
+            return render_template(RESULT_TEMPLATE, mensaje="No se encontró ningún trabajador con el nombre y la cédula proporcionados.")
     except Temployer.not_found as e:
-        return render_template("resultado.html", mensaje=str(e))
+        return render_template(RESULT_TEMPLATE, mensaje=str(e))
     except Exception as e:
-        return render_template("resultado.html", mensaje=str(e))
+        return render_template(RESULT_TEMPLATE, mensaje=str(e))
     
 # Definir la ruta para la página de descripción
 @blueprint.route('/description')
