@@ -38,6 +38,9 @@ blueprint = Blueprint("vista_usuarios", __name__, template_folder="templates")
 # Definir una constante para la plantilla "resultado.html"
 RESULT_TEMPLATE = "resultado.html"
 
+# Definir una constante para el mensaje de trabajador no encontrado
+TRABAJADOR_NO_ENCONTRADO = "No se encontró ningún trabajador con el nombre y la cédula proporcionados."
+
 # Definir la ruta para la página de inicio
 @blueprint.route("/")
 def home():
@@ -107,7 +110,7 @@ def buscar_usuario_result():
     else:
         return render_template(
             "buscar_usuario_result.html",
-            mensaje="No se encontró ningún trabajador con el nombre y la cédula proporcionados."
+            mensaje=TRABAJADOR_NO_ENCONTRADO
         )
 
 # Definir la ruta para la página de actualización de un usuario
@@ -143,7 +146,7 @@ def actualizar_usuario_result():
             WorkersIncomeData.Update(nombre, cedula, KEYUPDATE=columna, VALUEUPDATE=valor)  # Actualizar la información del trabajador en la base de datos
             mensaje = "Información del trabajador actualizada exitosamente!"
         else:
-            mensaje = "No se encontró ningún trabajador con el nombre y la cédula proporcionados."
+            mensaje = TRABAJADOR_NO_ENCONTRADO
         return render_template(RESULT_TEMPLATE, mensaje=mensaje)
     except Temployer.not_exist as e:
         mensaje = f"Error al actualizar: {str(e)}"
@@ -174,7 +177,7 @@ def eliminar_usuario_result():
         WorkersIncomeData.DeleteWorker(nombre, cedula)  # Eliminar el trabajador de la base de datos
         return render_template(RESULT_TEMPLATE, mensaje="Trabajador eliminado exitosamente!")
     else:
-        return render_template(RESULT_TEMPLATE, mensaje="No se encontró ningún trabajador con el nombre y la cédula proporcionados.")
+        return render_template(RESULT_TEMPLATE, mensaje=TRABAJADOR_NO_ENCONTRADO)
     
 # Definir la ruta para la página de cálculo de liquidación
 @blueprint.route("/calcular-liquidacion", methods=["GET"])
@@ -232,7 +235,7 @@ def mostrar_resultado_liquidacion():
                 total_a_pagar=liquidacion  # Total a pagar en la liquidación
             )
         else:
-            return render_template(RESULT_TEMPLATE, mensaje="No se encontró ningún trabajador con el nombre y la cédula proporcionados.")
+            return render_template(RESULT_TEMPLATE, mensaje=TRABAJADOR_NO_ENCONTRADO)
     except Temployer.not_found as e:
         return render_template(RESULT_TEMPLATE, mensaje=str(e))
     except Exception as e:
