@@ -1,13 +1,10 @@
-# The first thing to do is unit testing for normal cases.
-
-# We import the library we will use to perform unit tests; in this case, the unittest library.
 import unittest
 import sys
 import os
 
 # Agregar el directorio padre al path para permitir importaciones relativas
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from src.Model.MonthlyPaymentLogic import *
+import src.Model.MonthlyPaymentLogic as mp
 import src.Model.MonthlyPaymentLogic as mp
 
 # We create the class that will contain the unit tests.
