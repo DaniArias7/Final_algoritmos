@@ -1,7 +1,6 @@
 import sys
 import os
-from MonthlyPaymentLogic import *
-
+from MonthlyPaymentLogic import QueryWorker
 
 # Obtenemos la ruta del directorio actual del script
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -10,10 +9,7 @@ project_dir = os.path.abspath(os.path.join(current_dir, ".."))
 # Agregamos el directorio principal del proyecto al sys.path
 sys.path.append(project_dir)
 
-# Ahora podemos importar los módulos del proyecto
-from MonthlyPaymentLogic import *
-import MonthlyPaymentLogic as mp
-#from Controller.Controladortablas import WorkersIncomeData
+from MonthlyPaymentLogic import QueryWorker as qw
 
 class FailePrimaryKey(Exception):
     pass
@@ -62,7 +58,7 @@ class EmployerInput:
     solidarity_pension_fund_contribution_percentage : float
         Porcentaje de contribución al fondo de pensiones solidarias.
     """
-    def __init__(self,name, id, basic_salary, monthly_worked_days, days_leave, transportation_allowance,
+    def __init__(self, name, id, basic_salary, monthly_worked_days, days_leave, transportation_allowance,
                  daytime_overtime_hours, nighttime_overtime_hours, daytime_holiday_overtime_hours,
                  nighttime_holiday_overtime_hours, sick_leave_days, health_contribution_percentage,
                  pension_contribution_percentage, solidarity_pension_fund_contribution_percentage):
@@ -288,4 +284,4 @@ class EmployerOutput:
             Si no se encuentra el empleador consultado.
         """
         if query is None:
-            raise NotFound("No se ha encontrado su búsqueda")   
+            raise NotFound("No se ha encontrado su búsqueda")
