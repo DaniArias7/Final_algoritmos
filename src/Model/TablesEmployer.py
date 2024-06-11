@@ -1,6 +1,6 @@
 import sys
 import os
-from MonthlyPaymentLogic import *
+from MonthlyPaymentLogic import QueryWorker  # Importa solo el nombre necesario
 
 # Obtenemos la ruta del directorio actual del script
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -9,9 +9,9 @@ project_dir = os.path.abspath(os.path.join(current_dir, ".."))
 # Agregamos el directorio principal del proyecto al sys.path
 sys.path.append(project_dir)
 # Ahora podemos importar los módulos del proyecto
-from MonthlyPaymentLogic import *
-import MonthlyPaymentLogic as mp
-#from Controller.Controladortablas import WorkersIncomeData
+# from MonthlyPaymentLogic import *  # Esta línea no es necesaria
+# import MonthlyPaymentLogic as mp  # Esta línea no es necesaria
+# from Controller.Controladortablas import WorkersIncomeData  # Esta línea está comentada porque no se usa
 
 class FailePrimaryKey(Exception):
     pass
@@ -59,7 +59,7 @@ class EmployerInput:
     solidarity_pension_fund_contribution_percentage : float
         Porcentaje de contribución al fondo de pensiones solidarias.
     """
-    def __init__(self,name, id, basic_salary, monthly_worked_days, days_leave, transportation_allowance,
+    def __init__(self, name, id, basic_salary, monthly_worked_days, days_leave, transportation_allowance,
                  daytime_overtime_hours, nighttime_overtime_hours, daytime_holiday_overtime_hours,
                  nighttime_holiday_overtime_hours, sick_leave_days, health_contribution_percentage,
                  pension_contribution_percentage, solidarity_pension_fund_contribution_percentage):
@@ -107,7 +107,7 @@ class EmployerInput:
         assert (self.solidarity_pension_fund_contribution_percentage == dbneon.solidarity_pension_fund_contribution_percentage)
     
     @staticmethod
-    def primary_key(name, id, module):
+    def primary_key(name, id):
         """
         Verifica si la combinación de nombre e ID ya existe en la base de datos.
         Parameters:
@@ -116,14 +116,12 @@ class EmployerInput:
             Nombre del empleador.
         id : int
             Identificador único del empleador.
-        module : Module
-            Módulo que contiene la función QueryWorker para consultar la base de datos.
         Raises:
         -------
         FailePrimaryKey:
             Si la combinación de nombre e ID ya existe en la base de datos.
-        """      
-        value = module.QueryWorker(name, id)
+        """
+        value = QueryWorker(name, id)
         if value is not None:
             raise FailePrimaryKey(f"Ya ingresaste este usuario: {name} - {id}")
         
@@ -168,7 +166,6 @@ class EmployerInput:
 class EmployerOutput:
     """
     Clase para representar los datos de salida de un empleador.
-
     Parameters:
     -----------
     name : str
