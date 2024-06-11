@@ -14,5 +14,5 @@ sys.path.append(project_dir)
 sys.path.append(model_dir)
 sys.path.append("./src")
 sys.path.append(".")
-from Model.MonthlyPaymentLogic import *
+
 import Model.MonthlyPaymentLogic as mp
