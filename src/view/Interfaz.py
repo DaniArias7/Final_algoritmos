@@ -12,9 +12,10 @@ sys.path.append(project_dir)
 sys.path.append(model_dir)
 sys.path.append("./src")
 
+# Importar el módulo completo y usar sus miembros
 import Model.MonthlyPaymentLogic as mp
 
-from kivy.app import App  # Es necesario para iniciar y ejecutar una aplicación Kivy.
+from kivy.app import App
 from kivy.uix.image import Image
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
