@@ -12,119 +12,133 @@ from src.Controller.Controladortablas import WorkersoutputsData
 import src.Model.TablesEmployer as Temployer
 
 
-
 class ControllerTest(unittest.TestCase):
-    # Test Fixture
-    def setUpClass():
-        # Llamar a la clase COntrolador para que cree la tabla
-        
+
+    @classmethod
+    def setUpClass(cls):
+        # Llamar a la clase Controlador para que cree la tabla
         WorkersIncomeData.Droptable()
         WorkersIncomeData.CreateTable()
         WorkersoutputsData.Droptable()
         WorkersoutputsData.CreateTable()
 
-
     def testinsertemployer(self):
-        employer=Temployer.Employerinput(name='juana',id='10013', basic_salary=6000000, monthly_worked_days=30, days_leave=0, 
-                                       transportation_allowance=0, daytime_overtime_hours=0, 
-                                       nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
-                                        nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
-                                        pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0.01)
+        employer = Temployer.Employerinput(
+            name='juana', id='10013', basic_salary=6000000, monthly_worked_days=30, days_leave=0,
+            transportation_allowance=0, daytime_overtime_hours=0,
+            nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
+            nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
+            pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0.01
+        )
         WorkersIncomeData.Insert(employer)
-        findemployer=WorkersIncomeData.QueryWorker(employer.name, employer.id)
-        findemployer.Isequal(employer)
-    
-    
+        findemployer = WorkersIncomeData.QueryWorker(employer.name, employer.id)
+        self.assertTrue(findemployer.Isequal(employer))
+
     def testupdateworkers(self):
-        employer=Temployer.Employerinput(name='ROSA',id='100000', basic_salary=2000000, monthly_worked_days=20, days_leave=0, 
-                                       transportation_allowance=160000, daytime_overtime_hours=0, 
-                                       nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
-                                        nighttime_holiday_overtime_hours=0,sick_leave_days=0, health_contribution_percentage=0.04,
-                                        pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0)
+        employer = Temployer.Employerinput(
+            name='ROSA', id='100000', basic_salary=2000000, monthly_worked_days=20, days_leave=0,
+            transportation_allowance=160000, daytime_overtime_hours=0,
+            nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
+            nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
+            pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0
+        )
         WorkersIncomeData.Insert(employer)
-        KEYUPDATE="monthly_worked_days"
-        VALUEUPDATE=30
-        # Actualizar el valor del atributo correspondiente utilizando getattr
+        KEYUPDATE = "monthly_worked_days"
+        VALUEUPDATE = 30
+        # Actualizar el valor del atributo correspondiente utilizando setattr
         setattr(employer, KEYUPDATE, VALUEUPDATE)
-        WorkersIncomeData.Update(employer.name,employer.id,KEYUPDATE=KEYUPDATE, VALUEUPDATE=VALUEUPDATE)
-        findemployer=WorkersIncomeData.QueryWorker(employer.name, employer.id)
-        findemployer.Isequal(employer)
+        WorkersIncomeData.Update(employer.name, employer.id, KEYUPDATE=KEYUPDATE, VALUEUPDATE=VALUEUPDATE)
+        findemployer = WorkersIncomeData.QueryWorker(employer.name, employer.id)
+        self.assertTrue(findemployer.Isequal(employer))
 
     def testdeleteworkers(self):
-        employer=Temployer.Employerinput(name='PePe',id='100000', basic_salary=5000000, monthly_worked_days=20, days_leave=0, 
-                                       transportation_allowance=0, daytime_overtime_hours=0, 
-                                       nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
-                                        nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.4,
-                                        pension_contribution_percentage=0.4, solidarity_pension_fund_contribution_percentage=4)
+        employer = Temployer.Employerinput(
+            name='PePe', id='100000', basic_salary=5000000, monthly_worked_days=20, days_leave=0,
+            transportation_allowance=0, daytime_overtime_hours=0,
+            nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
+            nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.4,
+            pension_contribution_percentage=0.4, solidarity_pension_fund_contribution_percentage=4
+        )
         WorkersIncomeData.Insert(employer)
-        WorkersIncomeData.DeleteWorker(employer.name,employer.id)
-        findemployer=WorkersIncomeData.QueryWorker(employer.name, employer.id)
+        WorkersIncomeData.DeleteWorker(employer.name, employer.id)
+        findemployer = WorkersIncomeData.QueryWorker(employer.name, employer.id)
         self.assertIsNone(findemployer)
-        
+
     def testprovesalary(self):
-        employer=Temployer.Employerinput(name='bruno',id='1000000', basic_salary=1600000, monthly_worked_days=30, days_leave=0, 
-                                       transportation_allowance=160000, daytime_overtime_hours=0, 
-                                       nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
-                                        nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
-                                        pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0)
+        employer = Temployer.Employerinput(
+            name='bruno', id='1000000', basic_salary=1600000, monthly_worked_days=30, days_leave=0,
+            transportation_allowance=160000, daytime_overtime_hours=0,
+            nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
+            nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
+            pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0
+        )
         WorkersIncomeData.Insert(employer)
         WorkersoutputsData.PopulateTable()
-        findoutput=WorkersoutputsData.QueryWorker(employer.name,employer.id)
-        employeroutputsData=Temployer.Employeroutput(name='bruno',id='1000000',basic_salary=1600000,workdays=30,sick_leave=0,transportation_aid=160000, 
-                                                dayshift_extra_hours=0,nightshift_extra_hours=0,dayshift_extra_hours_holidays=0, 
-                                                nightshift_extra_hours_holidays=0,leave_days=0,percentage_health_insurance=64000,
-                                                percentage_retirement_insurance=64000,percentage_retirement_fund=0,
-                                                devengado=1760000,deducido=128000,amounttopay=1632000)
-        employeroutputsData.Isequivalent(findoutput)
+        findoutput = WorkersoutputsData.QueryWorker(employer.name, employer.id)
+        employeroutputsData = Temployer.Employeroutput(
+            name='bruno', id='1000000', basic_salary=1600000, workdays=30, sick_leave=0, transportation_aid=160000,
+            dayshift_extra_hours=0, nightshift_extra_hours=0, dayshift_extra_hours_holidays=0,
+            nightshift_extra_hours_holidays=0, leave_days=0, percentage_health_insurance=64000,
+            percentage_retirement_insurance=64000, percentage_retirement_fund=0,
+            devengado=1760000, deducido=128000, amounttopay=1632000
+        )
+        self.assertTrue(employeroutputsData.Isequivalent(findoutput))
 
     def testerrorprimarykey(self):
-        name_employer='robert'
-        id='430380'
-        employer=Temployer.Employerinput(name=name_employer,id=id, basic_salary=1600000, monthly_worked_days=30, days_leave=0, 
-                                       transportation_allowance=160000, daytime_overtime_hours=0, 
-                                       nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
-                                        nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
-                                        pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0)
+        name_employer = 'robert'
+        id = '430380'
+        employer = Temployer.Employerinput(
+            name=name_employer, id=id, basic_salary=1600000, monthly_worked_days=30, days_leave=0,
+            transportation_allowance=160000, daytime_overtime_hours=0,
+            nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
+            nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
+            pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0
+        )
         WorkersIncomeData.Insert(employer)
 
-        employer_repeat=Temployer.Employerinput(name=name_employer,id=id, basic_salary=1600000, monthly_worked_days=30, days_leave=0, 
-                                       transportation_allowance=160000, daytime_overtime_hours=0, 
-                                       nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
-                                        nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
-                                        pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0)
-        WorkersIncomeData.Insert(employer)
+        employer_repeat = Temployer.Employerinput(
+            name=name_employer, id=id, basic_salary=1600000, monthly_worked_days=30, days_leave=0,
+            transportation_allowance=160000, daytime_overtime_hours=0,
+            nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
+            nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
+            pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0
+        )
+        with self.assertRaises(Temployer.faileprimarykey):
+            Temployer.Employerinput.primary_key(employer_repeat.name, employer_repeat.id, WorkersIncomeData)
 
-        self.assertRaises(Temployer.faileprimarykey, Temployer.Employerinput.primary_key, employer_repeat.name, employer_repeat.id, WorkersIncomeData)
-    
     def testfaultdata(self):
-        employer=Temployer.Employerinput(name='joselu',id='1234', basic_salary=None, monthly_worked_days=30, days_leave=0, 
-                                       transportation_allowance=160000, daytime_overtime_hours=0, 
-                                       nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
-                                        nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
-                                        pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0)
-        self.assertRaises(Temployer.not_exist, Temployer.Employerinput.notexist, employer)
+        employer = Temployer.Employerinput(
+            name='joselu', id='1234', basic_salary=None, monthly_worked_days=30, days_leave=0,
+            transportation_allowance=160000, daytime_overtime_hours=0,
+            nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
+            nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
+            pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0
+        )
+        with self.assertRaises(Temployer.not_exist):
+            Temployer.Employerinput.notexist(employer)
 
     def testinfonotfound(self):
-        busqueda= WorkersoutputsData.QueryWorker("neuer","15151515")
-        self.assertRaises(Temployer.not_found, Temployer.Employeroutput.employernotfound,busqueda)
+        busqueda = WorkersoutputsData.QueryWorker("neuer", "15151515")
+        with self.assertRaises(Temployer.not_found):
+            Temployer.Employeroutput.employernotfound(busqueda)
 
     def testerrorupdateEmployerinput(self):
-        employer=Temployer.Employerinput(name='jhosepe',id='09879878', basic_salary=2000000, monthly_worked_days=20, days_leave=0, 
-                                       transportation_allowance=160000, daytime_overtime_hours=0, 
-                                       nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
-                                        nighttime_holiday_overtime_hours=0,sick_leave_days=0, health_contribution_percentage=0.04,
-                                        pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0)
+        employer = Temployer.Employerinput(
+            name='jhosepe', id='09879878', basic_salary=2000000, monthly_worked_days=20, days_leave=0,
+            transportation_allowance=160000, daytime_overtime_hours=0,
+            nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
+            nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
+            pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0
+        )
         WorkersIncomeData.Insert(employer)
-        KEYUPDATE="monthly_worked_ds" #copia mal el days
-        VALUEUPDATE=30
-        #Actualizar el valor del atributo correspondiente utilizando getattr
+        KEYUPDATE = "monthly_worked_ds"  # copia mal el days
+        VALUEUPDATE = 30
+        # Actualizar el valor del atributo correspondiente utilizando setattr
         setattr(employer, KEYUPDATE, VALUEUPDATE)
-        WorkersIncomeData.Update(employer.name,employer.id,KEYUPDATE=KEYUPDATE, VALUEUPDATE=VALUEUPDATE)
-        self.assertRaises(Temployer.updatenotfount,Temployer.Employerinput.valor_presente,KEYUPDATE)
+        WorkersIncomeData.Update(employer.name, employer.id, KEYUPDATE=KEYUPDATE, VALUEUPDATE=VALUEUPDATE)
+        with self.assertRaises(Temployer.updatenotfount):
+            Temployer.Employerinput.valor_presente(KEYUPDATE)
 
-
-    
 
 if __name__ == '__main__':
-    # print( Payment.calcularCuota.__doc__)
     unittest.main()
