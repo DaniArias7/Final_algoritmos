@@ -1,6 +1,6 @@
 import sys
 import os
-from MonthlyPaymentLogic import QueryWorker
+from MonthlyPaymentLogic import *
 
 # Obtenemos la ruta del directorio actual del script
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -8,8 +8,10 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(current_dir, ".."))
 # Agregamos el directorio principal del proyecto al sys.path
 sys.path.append(project_dir)
-
-from MonthlyPaymentLogic import QueryWorker as qw
+# Ahora podemos importar los módulos del proyecto
+from MonthlyPaymentLogic import *
+import MonthlyPaymentLogic as mp
+#from Controller.Controladortablas import WorkersIncomeData
 
 class FailePrimaryKey(Exception):
     pass
@@ -26,7 +28,6 @@ class UpdateNotFound(Exception):
 class EmployerInput:
     """
     Clase para representar los datos de entrada de un empleador.
-
     Parameters:
     -----------
     name : str
@@ -58,7 +59,7 @@ class EmployerInput:
     solidarity_pension_fund_contribution_percentage : float
         Porcentaje de contribución al fondo de pensiones solidarias.
     """
-    def __init__(self, name, id, basic_salary, monthly_worked_days, days_leave, transportation_allowance,
+    def __init__(self,name, id, basic_salary, monthly_worked_days, days_leave, transportation_allowance,
                  daytime_overtime_hours, nighttime_overtime_hours, daytime_holiday_overtime_hours,
                  nighttime_holiday_overtime_hours, sick_leave_days, health_contribution_percentage,
                  pension_contribution_percentage, solidarity_pension_fund_contribution_percentage):
@@ -81,12 +82,10 @@ class EmployerInput:
     def is_equal(self, dbneon):
         """
         Verifica si dos instancias de EmployerInput son iguales en todos sus atributos.
-
         Parameters:
         -----------
         dbneon : EmployerInput
             Otra instancia de EmployerInput para comparar.
-
         Raises:
         -------
         AssertionError:
@@ -111,7 +110,6 @@ class EmployerInput:
     def primary_key(name, id, module):
         """
         Verifica si la combinación de nombre e ID ya existe en la base de datos.
-
         Parameters:
         -----------
         name : str
@@ -120,7 +118,6 @@ class EmployerInput:
             Identificador único del empleador.
         module : Module
             Módulo que contiene la función QueryWorker para consultar la base de datos.
-
         Raises:
         -------
         FailePrimaryKey:
@@ -134,12 +131,10 @@ class EmployerInput:
     def not_exist(employer):
         """
         Verifica si algún atributo del objeto employer es None.
-
         Parameters:
         -----------
         employer : EmployerInput
             Una instancia de la clase EmployerInput.
-
         Raises:
         -------
         NotExist:
@@ -152,12 +147,10 @@ class EmployerInput:
     def valor_presente(atributo):
         """
         Verifica si el atributo dado está presente en la lista de atributos esperados.
-
         Parameters:
         -----------
         atributo : str
             El nombre del atributo a verificar.
-
         Raises:
         -------
         UpdateNotFound:
@@ -213,7 +206,6 @@ class EmployerOutput:
     amounttopay : float
         Monto total a pagar al empleador.
     """
-
     def __init__(self, name, id, basic_salary, workdays, sick_leave, transportation_aid, dayshift_extra_hours, nightshift_extra_hours,
                  dayshift_extra_hours_holidays, nightshift_extra_hours_holidays, leave_days, percentage_health_insurance,
                  percentage_retirement_insurance, percentage_retirement_fund, devengado, deducido, amounttopay):
@@ -238,12 +230,10 @@ class EmployerOutput:
     def is_equivalent(self, dbneon):
         """
         Verifica si dos instancias de EmployerOutput son equivalentes en todos sus atributos.
-
         Parameters:
         -----------
         dbneon : EmployerOutput
             Otra instancia de EmployerOutput para comparar.
-
         Returns:
         --------
         bool:
@@ -272,12 +262,10 @@ class EmployerOutput:
     def employer_not_found(query):
         """
         Lanza una excepción si el empleador consultado no se encuentra.
-
         Parameters:
         -----------
         query : object
             El resultado de una operación de consulta. Si es None, indica que no se encontró el empleador.
-
         Raises:
         -------
         NotFound:
