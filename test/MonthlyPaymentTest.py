@@ -178,20 +178,20 @@ class TestMonthlyPayment(unittest.TestCase):
     def test_regular_case_six(self):
         # Input data
         basic_salary = 2800000
-        workdays = 30
+        workdays = 25  # Cambiamos el número de días trabajados a 25
         sick_leave = 0
-        transportation_aid = 0
-        dayshift_extra_hours = 0
-        nightshift_extra_hours = 0
+        transportation_aid = 160000  # Agregamos subsidio de transporte
+        dayshift_extra_hours = 20  # Agregamos horas extras diurnas
+        nightshift_extra_hours = 5  # Agregamos horas extras nocturnas
         dayshift_extra_hours_holidays = 0
         nightshift_extra_hours_holidays = 0
-        leave_days = 0
+        leave_days = 2  # Agregamos días de licencia
         percentage_health_insurance = 0.04
         percentage_retirement_insurance = 0.04
-        percentage_retirement_fund = 0
+        percentage_retirement_fund = 0.01  # Cambiamos el porcentaje de aporte al fondo de pensiones
 
         # Expected output data
-        total_to_pay = 2576000  # Total to pay
+        total_to_pay = 2747200  # Total a pagar
 
         # Process
         # We create a SettlementParameters object with the input data.
@@ -207,7 +207,6 @@ class TestMonthlyPayment(unittest.TestCase):
 
         # We compare the result with the expected value using self.assertAlmostEqual.
         self.assertAlmostEqual(total_to_pay, result_total_to_pay, places=2)
-
 
 if __name__ == '__main__':
     unittest.main()
