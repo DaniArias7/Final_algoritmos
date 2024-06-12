@@ -10,7 +10,7 @@ sys.path.append(project_dir)
 # Agregar el directorio 'src' al path para permitir importaciones relativas
 sys.path.append("./src")
 
-from Model.MonthlyPaymentLogic import *
+from Model.MonthlyPaymentLogic import SettlementParameters, calculate_settlement, MINIMUM_WAGE, UVT, EXTRA_HOUR_DAYSHIFT, EXTRA_HOUR_NIGHTSHIFT, EXTRA_HOUR_DAYSHIFT_HOLIDAYS, EXTRA_HOUR_NIGHTSHIFT_HOLIDAYS, MONTH_DAYS, MONTH_HOURS, PERCENTAGE_HEALTH_INSURANCE, PERCENTAGE_RETIREMENT_FUND
 import Model.MonthlyPaymentLogic as mp
 
 print(f"""
