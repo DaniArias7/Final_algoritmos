@@ -58,24 +58,22 @@ class Employerinput:
     solidarity_pension_fund_contribution_percentage : float
         Percentage of contribution to the solidarity pension fund.
     """
-    def __init__(self, name, id, basic_salary, monthly_worked_days, days_leave, transportation_allowance,
-                 daytime_overtime_hours, nighttime_overtime_hours, daytime_holiday_overtime_hours,
-                 nighttime_holiday_overtime_hours, sick_leave_days, health_contribution_percentage,
-                 pension_contribution_percentage, solidarity_pension_fund_contribution_percentage):
+    def __init__(self, name, id, basic_salary, work_details, overtime_details, leave_details, contribution_details):
         self.name = name
         self.id = id
         self.basic_salary = basic_salary
-        self.monthly_worked_days = monthly_worked_days
-        self.days_leave = days_leave
-        self.transportation_allowance = transportation_allowance
-        self.daytime_overtime_hours = daytime_overtime_hours
-        self.nighttime_overtime_hours = nighttime_overtime_hours
-        self.daytime_holiday_overtime_hours = daytime_holiday_overtime_hours
-        self.nighttime_holiday_overtime_hours = nighttime_holiday_overtime_hours
-        self.sick_leave_days = sick_leave_days
-        self.health_contribution_percentage = health_contribution_percentage
-        self.pension_contribution_percentage = pension_contribution_percentage
-        self.solidarity_pension_fund_contribution_percentage = solidarity_pension_fund_contribution_percentage
+        self.monthly_worked_days = work_details['monthly_worked_days']
+        self.days_leave = work_details['days_leave']
+        self.transportation_allowance = work_details['transportation_allowance']
+        self.daytime_overtime_hours = overtime_details['daytime_overtime_hours']
+        self.nighttime_overtime_hours = overtime_details['nighttime_overtime_hours']
+        self.daytime_holiday_overtime_hours = overtime_details['daytime_holiday_overtime_hours']
+        self.nighttime_holiday_overtime_hours = overtime_details['nighttime_holiday_overtime_hours']
+        self.sick_leave_days = leave_details['sick_leave_days']
+        self.health_contribution_percentage = contribution_details['health_contribution_percentage']
+        self.pension_contribution_percentage = contribution_details['pension_contribution_percentage']
+        self.solidarity_pension_fund_contribution_percentage = contribution_details['solidarity_pension_fund_contribution_percentage']
+
     
     def Isequal(self, dbneon):
         """
@@ -216,26 +214,25 @@ class Employeroutput():
         Total amount to be paid to the employer.
     """
 
-    def __init__(self, name, id, basic_salary, workdays, sick_leave, transportation_aid, dayshift_extra_hours, nightshift_extra_hours,
-                 dayshift_extra_hours_holidays, nightshift_extra_hours_holidays, leave_days, percentage_health_insurance,
-                 percentage_retirement_insurance, percentage_retirement_fund, devengado, deducido, amounttopay):
+    def __init__(self, name, id, basic_salary, work_details, overtime_details, leave_details, contribution_details, payroll_details):
         self.name = name
         self.id = id
         self.basic_salary = basic_salary
-        self.workdays = workdays
-        self.sick_leave = sick_leave
-        self.transportation_aid = transportation_aid
-        self.dayshift_extra_hours = dayshift_extra_hours
-        self.nightshift_extra_hours = nightshift_extra_hours
-        self.dayshift_extra_hours_holidays = dayshift_extra_hours_holidays
-        self.nightshift_extra_hours_holidays = nightshift_extra_hours_holidays
-        self.leave_days = leave_days
-        self.percentage_health_insurance = percentage_health_insurance
-        self.percentage_retirement_insurance = percentage_retirement_insurance
-        self.percentage_retirement_fund = percentage_retirement_fund
-        self.devengado = devengado
-        self.deducido = deducido
-        self.amounttopay = amounttopay
+        self.workdays = work_details['workdays']
+        self.sick_leave = work_details['sick_leave']
+        self.transportation_aid = work_details['transportation_aid']
+        self.dayshift_extra_hours = overtime_details['dayshift_extra_hours']
+        self.nightshift_extra_hours = overtime_details['nightshift_extra_hours']
+        self.dayshift_extra_hours_holidays = overtime_details['dayshift_extra_hours_holidays']
+        self.nightshift_extra_hours_holidays = overtime_details['nightshift_extra_hours_holidays']
+        self.leave_days = leave_details['leave_days']
+        self.percentage_health_insurance = contribution_details['percentage_health_insurance']
+        self.percentage_retirement_insurance = contribution_details['percentage_retirement_insurance']
+        self.percentage_retirement_fund = contribution_details['percentage_retirement_fund']
+        self.devengado = payroll_details['devengado']
+        self.deducido = payroll_details['deducido']
+        self.amounttopay = payroll_details['amounttopay']
+
     
     def Isequivalent(self, dbneon):
         """
