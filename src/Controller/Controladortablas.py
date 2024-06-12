@@ -278,24 +278,3 @@ class  WorkersoutputsData():
                                                 amounttopay=fila[16])
             return result
 
-
-
-f"""
-0. name
-1. id
-2. basic_salary
-3. workdays
-4. sick_leave
-5. transportation_aid
-6. dayshift_extra_hours
-7. nightshift_extra_hours
-8. dayshift_extra_hours_holidays
-9. nightshift_extra_hours_holidays
-10. leave_days
-11. percentage_health_insurance
-12. percentage_retirement_insurance
-13. percentage_retirement_fund
-14. devengado
-15. deducido
-16. amounttopay
-"""
