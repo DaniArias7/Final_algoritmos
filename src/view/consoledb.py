@@ -115,9 +115,9 @@ def insert_employer():
 
 def query_employees():
     name = input(nombre)
-    id = input(cedula)
+    employee_id = input(cedula)
     
-    findemployer = WorkersIncomeData.query_worker(name, id)
+    findemployer = WorkersIncomeData.query_worker(name, employee_id)
     
     if findemployer:
         data_series = pd.Series({
@@ -160,7 +160,7 @@ def obtener_significado(valor):
 
 def update_employer():
         name=input(nombre)
-        id=input(cedula)
+        employee_id = input(cedula)
         print("""columnas que puedes cambiar 
                 Salario básico
                 Días trabajados
@@ -178,22 +178,22 @@ def update_employer():
         KEY=input("ingrese la columna que quiere cambiar:  ")
         KEYUPDATE=obtener_significado(KEY)
         VALUEUPDATE=float(input("ingrese el valor:   "))
-        WorkersIncomeData.update(name,id,KEYUPDATE=KEYUPDATE, VALUEUPDATE=VALUEUPDATE)
+        WorkersIncomeData.update(name,employee_id,KEYUPDATE=KEYUPDATE, VALUEUPDATE=VALUEUPDATE)
 
 def delete_employer():
     name = input(nombre)
-    id = input(id)
-    WorkersIncomeData.delete_worker(name,id)
+    worker_id = input(worker_id)
+    WorkersIncomeData.delete_worker(name,worker_id)
 
 
 def query_employees_page():
     name = input(nombre)
-    id = input(id)
-    findemployer =WorkersoutputsData.QueryWorker(name,id)
+    worker_id = input(worker_id)
+    findemployer =WorkersoutputsData.QueryWorker(name,worker_id)
     
     data_series = pd.Series({
     "Nombre": findemployer.name,
-    "Cédula": findemployer.id,
+    "Cédula": findemployer.worker_id,
     salario_basico: findemployer.basic_salary,
     dias_trabajados: findemployer.workdays,
     dias_licencia: findemployer.leave_days,
