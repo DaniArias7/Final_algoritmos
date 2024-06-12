@@ -271,13 +271,13 @@ class Employeroutput():
         return True
     
     @staticmethod
-    def employernotfound(self):
+    def employernotfound(query):
         """
         Raise an exception if the queried employer is not found.
 
         Parameters:
         -----------
-        self : object
+        query : object
             The result of a query operation. If None, it indicates that the employer was not found.
 
         Raises:
@@ -285,7 +285,5 @@ class Employeroutput():
         not_found:
             If the queried employer is not found.
         """
-        if self is None:
+        if query is None:
             raise not_found("no se ha encontrado su busqueda")
-   
-            
