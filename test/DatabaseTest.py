@@ -15,10 +15,10 @@ class ControllerTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Llamar a la clase Controlador para que cree la tabla
-        WorkersIncomeData.Droptable()
-        WorkersIncomeData.CreateTable()
-        WorkersoutputsData.Droptable()
-        WorkersoutputsData.CreateTable()
+        WorkersIncomeData.drop_table()
+        WorkersIncomeData.create_table()
+        WorkersoutputsData.drop_table()
+        WorkersoutputsData.create_table()
 
     def testinsertemployer(self):
         employer = Temployer.Employerinput(
@@ -28,8 +28,8 @@ class ControllerTest(unittest.TestCase):
             nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
             pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0.01
         )
-        WorkersIncomeData.Insert(employer)
-        findemployer = WorkersIncomeData.QueryWorker(employer.name, employer.id)
+        WorkersIncomeData.insert(employer)
+        findemployer = WorkersIncomeData.query_worker(employer.name, employer.id)
         self.assertTrue(findemployer.Isequal(employer))
 
     def testupdateworkers(self):
@@ -40,13 +40,13 @@ class ControllerTest(unittest.TestCase):
             nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
             pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0
         )
-        WorkersIncomeData.Insert(employer)
+        WorkersIncomeData.insert(employer)
         KEYUPDATE = "monthly_worked_days"
         VALUEUPDATE = 30
         # Actualizar el valor del atributo correspondiente utilizando setattr
         setattr(employer, KEYUPDATE, VALUEUPDATE)
         WorkersIncomeData.Update(employer.name, employer.id, KEYUPDATE=KEYUPDATE, VALUEUPDATE=VALUEUPDATE)
-        findemployer = WorkersIncomeData.QueryWorker(employer.name, employer.id)
+        findemployer = WorkersIncomeData.query_worker(employer.name, employer.id)
         self.assertTrue(findemployer.Isequal(employer))
 
     def testdeleteworkers(self):
@@ -57,9 +57,9 @@ class ControllerTest(unittest.TestCase):
             nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.4,
             pension_contribution_percentage=0.4, solidarity_pension_fund_contribution_percentage=4
         )
-        WorkersIncomeData.Insert(employer)
-        WorkersIncomeData.DeleteWorker(employer.name, employer.id)
-        findemployer = WorkersIncomeData.QueryWorker(employer.name, employer.id)
+        WorkersIncomeData.insert(employer)
+        WorkersIncomeData.delete_worker(employer.name, employer.id)
+        findemployer = WorkersIncomeData.query_worker(employer.name, employer.id)
         self.assertIsNone(findemployer)
 
     def testprovesalary(self):
@@ -70,9 +70,9 @@ class ControllerTest(unittest.TestCase):
             nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
             pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0
         )
-        WorkersIncomeData.Insert(employer)
+        WorkersIncomeData.insert(employer)
         WorkersoutputsData.PopulateTable()
-        findoutput = WorkersoutputsData.QueryWorker(employer.name, employer.id)
+        findoutput = WorkersoutputsData.query_worker(employer.name, employer.id)
         employeroutputsData = Temployer.Employeroutput(
             name='bruno', id='1000000', basic_salary=1600000, workdays=30, sick_leave=0, transportation_aid=160000,
             dayshift_extra_hours=0, nightshift_extra_hours=0, dayshift_extra_hours_holidays=0,
@@ -92,7 +92,7 @@ class ControllerTest(unittest.TestCase):
             nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
             pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0
         )
-        WorkersIncomeData.Insert(employer)
+        WorkersIncomeData.insert(employer)
 
         employer_repeat = Temployer.Employerinput(
             name=name_employer, id=id, basic_salary=1600000, monthly_worked_days=30, days_leave=0,
@@ -116,7 +116,7 @@ class ControllerTest(unittest.TestCase):
             Temployer.Employerinput.notexist(employer)
 
     def testinfonotfound(self):
-        busqueda = WorkersoutputsData.QueryWorker("neuer", "15151515")
+        busqueda = WorkersoutputsData.query_worker("neuer", "15151515")
         with self.assertRaises(Temployer.not_found):
             Temployer.Employeroutput.employernotfound(busqueda)
 
@@ -128,7 +128,7 @@ class ControllerTest(unittest.TestCase):
             nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,
             pension_contribution_percentage=0.04, solidarity_pension_fund_contribution_percentage=0
         )
-        WorkersIncomeData.Insert(employer)
+        WorkersIncomeData.insert(employer)
         KEYUPDATE = "monthly_worked_ds"  # copia mal el days
         VALUEUPDATE = 30
         # Actualizar el valor del atributo correspondiente utilizando setattr

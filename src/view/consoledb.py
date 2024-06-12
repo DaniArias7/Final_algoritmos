@@ -35,10 +35,10 @@ print(f"""Ahora bien, también puedes acceder a la segunda tabla, la cual va a c
             A esta tabla podrás hacer consultas y ver todo lo referente a los trabajadores.""")
 
 def createtables():
-    WorkersIncomeData.Droptable()
-    WorkersIncomeData.CreateTable()
-    WorkersoutputsData.Droptable()
-    WorkersoutputsData.CreateTable()
+    WorkersIncomeData.drop_table()
+    WorkersIncomeData.create_table()
+    WorkersoutputsData.drop_table()
+    WorkersoutputsData.create_table()
 
 def getemployer():
     "Ingresa la siguiente información del trabajador"
@@ -92,7 +92,7 @@ def insert_employer():
                                         health_contribution_percentage=dic_info_enter["health_contribution_percentage"],
                                         pension_contribution_percentage=dic_info_enter["pension_contribution_percentage"], 
                                         solidarity_pension_fund_contribution_percentage=dic_info_enter["solidarity_pension_fund_contribution_percentage"])
-        WorkersIncomeData.Insert(employer)
+        WorkersIncomeData.insert(employer)
         print("")
     print("se realizo con exito la insercion de trabajadores") 
 
@@ -100,7 +100,7 @@ def query_employees():
     name = input("Ingresa el nombre del trabajador: ")
     id = input("Ingresa la cédula del trabajador: ")
     
-    findemployer = WorkersIncomeData.QueryWorker(name, id)
+    findemployer = WorkersIncomeData.query_worker(name, id)
     
     if findemployer:
         data_series = pd.Series({
@@ -161,12 +161,12 @@ def update_employer():
         KEY=input("ingrese la columna que quiere cambiar:  ")
         KEYUPDATE=obtener_significado(KEY)
         VALUEUPDATE=float(input("ingrese el valor:   "))
-        WorkersIncomeData.Update(name,id,KEYUPDATE=KEYUPDATE, VALUEUPDATE=VALUEUPDATE)
+        WorkersIncomeData.update(name,id,KEYUPDATE=KEYUPDATE, VALUEUPDATE=VALUEUPDATE)
 
 def delete_employer():
     name = input("Ingresa el nombre del trabajador: ")
     id = input("Ingresa la cédula del trabajador: ")
-    WorkersIncomeData.DeleteWorker(name,id)
+    WorkersIncomeData.delete_worker(name,id)
 
 
 def query_employees_page():

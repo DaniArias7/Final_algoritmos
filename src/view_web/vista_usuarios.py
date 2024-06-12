@@ -25,10 +25,10 @@ from Model.MonthlyPaymentLogic import calculate_settlement, InvalidRetirementFun
 import pandas as pd
 
 # Inicializar las tablas de datos eliminando las existentes y creando nuevas
-WorkersIncomeData.Droptable()
-WorkersIncomeData.CreateTable()
-WorkersoutputsData.Droptable()
-WorkersoutputsData.CreateTable()
+WorkersIncomeData.drop_table()
+WorkersIncomeData.create_table()
+WorkersoutputsData.drop_table()
+WorkersoutputsData.create_table()
 
 # Crear la aplicación Flask
 app = Flask(__name__)
@@ -81,7 +81,7 @@ def crear_usuario():
     )
 
     # Insertar el nuevo empleado en la base de datos
-    WorkersIncomeData.Insert(nuevo_empleado)
+    WorkersIncomeData.insert(nuevo_empleado)
     return render_template(RESULT_TEMPLATE, user=nuevo_empleado, mensaje="Usuario insertado exitosamente!")
 
 # Definir la ruta para la página de búsqueda de un usuario
@@ -100,7 +100,7 @@ def buscar_usuario_result():
     """
     nombre = request.args["nombre"]  # Nombre del usuario a buscar
     cedula = request.args["cedula"]  # Cédula del usuario a buscar
-    trabajador = WorkersIncomeData.QueryWorker(nombre, cedula)  # Consultar el trabajador en la base de datos
+    trabajador = WorkersIncomeData.query_worker(nombre, cedula)  # Consultar el trabajador en la base de datos
     if trabajador:
         return render_template(
             "buscar_usuario_result.html",
@@ -141,9 +141,9 @@ def actualizar_usuario_result():
         else:
             valor = int(valor)  # Convertir a int para columnas de tipo numérico sin decimales
         
-        worker = WorkersIncomeData.QueryWorker(nombre, cedula)  # Consultar el trabajador en la base de datos
+        worker = WorkersIncomeData.query_worker(nombre, cedula)  # Consultar el trabajador en la base de datos
         if worker:
-            WorkersIncomeData.Update(nombre, cedula, KEYUPDATE=columna, VALUEUPDATE=valor)  # Actualizar la información del trabajador en la base de datos
+            WorkersIncomeData.update(nombre, cedula, KEYUPDATE=columna, VALUEUPDATE=valor)  # Actualizar la información del trabajador en la base de datos
             mensaje = "Información del trabajador actualizada exitosamente!"
         else:
             mensaje = TRABAJADOR_NO_ENCONTRADO
@@ -172,9 +172,9 @@ def eliminar_usuario_result():
     nombre = request.form["nombre"]  # Nombre del usuario a eliminar
     cedula = request.form["cedula"]  # Cédula del usuario a eliminar
 
-    trabajador = WorkersIncomeData.QueryWorker(nombre, cedula)  # Consultar el trabajador en la base de datos
+    trabajador = WorkersIncomeData.query_worker(nombre, cedula)  # Consultar el trabajador en la base de datos
     if trabajador:
-        WorkersIncomeData.DeleteWorker(nombre, cedula)  # Eliminar el trabajador de la base de datos
+        WorkersIncomeData.delete_worker(nombre, cedula)  # Eliminar el trabajador de la base de datos
         return render_template(RESULT_TEMPLATE, mensaje="Trabajador eliminado exitosamente!")
     else:
         return render_template(RESULT_TEMPLATE, mensaje=TRABAJADOR_NO_ENCONTRADO)
@@ -197,7 +197,7 @@ def mostrar_resultado_liquidacion():
     cedula = request.form["cedula"]  # Cédula del usuario para el cálculo de liquidación
     
     try:
-        trabajador = WorkersIncomeData.QueryWorker(nombre, cedula)  # Consultar el trabajador en la base de datos
+        trabajador = WorkersIncomeData.query_worker(nombre, cedula)  # Consultar el trabajador en la base de datos
         if trabajador:
             # Preparar los parámetros para el cálculo de la liquidación
             settlement_params = SettlementParameters(
@@ -288,10 +288,10 @@ from Model.MonthlyPaymentLogic import calculate_settlement, InvalidRetirementFun
 import pandas as pd
 
 # Inicializar las tablas de datos eliminando las existentes y creando nuevas
-WorkersIncomeData.Droptable()
-WorkersIncomeData.CreateTable()
-WorkersoutputsData.Droptable()
-WorkersoutputsData.CreateTable()
+WorkersIncomeData.drop_table()
+WorkersIncomeData.create_table()
+WorkersoutputsData.drop_table()
+WorkersoutputsData.create_table()
 
 # Crear la aplicación Flask
 app = Flask(__name__)
@@ -344,7 +344,7 @@ def crear_usuario():
     )
 
     # Insertar el nuevo empleado en la base de datos
-    WorkersIncomeData.Insert(nuevo_empleado)
+    WorkersIncomeData.insert(nuevo_empleado)
     return render_template(RESULT_TEMPLATE, user=nuevo_empleado, mensaje="Usuario insertado exitosamente!")
 
 # Definir la ruta para la página de búsqueda de un usuario
@@ -363,7 +363,7 @@ def buscar_usuario_result():
     """
     nombre = request.args["nombre"]  # Nombre del usuario a buscar
     cedula = request.args["cedula"]  # Cédula del usuario a buscar
-    trabajador = WorkersIncomeData.QueryWorker(nombre, cedula)  # Consultar el trabajador en la base de datos
+    trabajador = WorkersIncomeData.query_worker(nombre, cedula)  # Consultar el trabajador en la base de datos
     if trabajador:
         return render_template(
             "buscar_usuario_result.html",
@@ -404,9 +404,9 @@ def actualizar_usuario_result():
         else:
             valor = int(valor)  # Convertir a int para columnas de tipo numérico sin decimales
         
-        worker = WorkersIncomeData.QueryWorker(nombre, cedula)  # Consultar el trabajador en la base de datos
+        worker = WorkersIncomeData.query_worker(nombre, cedula)  # Consultar el trabajador en la base de datos
         if worker:
-            WorkersIncomeData.Update(nombre, cedula, KEYUPDATE=columna, VALUEUPDATE=valor)  # Actualizar la información del trabajador en la base de datos
+            WorkersIncomeData.update(nombre, cedula, KEYUPDATE=columna, VALUEUPDATE=valor)  # Actualizar la información del trabajador en la base de datos
             mensaje = "Información del trabajador actualizada exitosamente!"
         else:
             mensaje = TRABAJADOR_NO_ENCONTRADO
@@ -435,9 +435,9 @@ def eliminar_usuario_result():
     nombre = request.form["nombre"]  # Nombre del usuario a eliminar
     cedula = request.form["cedula"]  # Cédula del usuario a eliminar
 
-    trabajador = WorkersIncomeData.QueryWorker(nombre, cedula)  # Consultar el trabajador en la base de datos
+    trabajador = WorkersIncomeData.query_worker(nombre, cedula)  # Consultar el trabajador en la base de datos
     if trabajador:
-        WorkersIncomeData.DeleteWorker(nombre, cedula)  # Eliminar el trabajador de la base de datos
+        WorkersIncomeData.delete_worker(nombre, cedula)  # Eliminar el trabajador de la base de datos
         return render_template(RESULT_TEMPLATE, mensaje="Trabajador eliminado exitosamente!")
     else:
         return render_template(RESULT_TEMPLATE, mensaje=TRABAJADOR_NO_ENCONTRADO)
@@ -460,7 +460,7 @@ def mostrar_resultado_liquidacion():
     cedula = request.form["cedula"]  # Cédula del usuario para el cálculo de liquidación
     
     try:
-        trabajador = WorkersIncomeData.QueryWorker(nombre, cedula)  # Consultar el trabajador en la base de datos
+        trabajador = WorkersIncomeData.query_worker(nombre, cedula)  # Consultar el trabajador en la base de datos
         if trabajador:
             # Preparar los parámetros para el cálculo de la liquidación
             settlement_params = SettlementParameters(

@@ -11,7 +11,7 @@ from src.view_web import vista_usuarios
 # Flask constructor: crea una variable que nos servirá para comunicarle a Flask
 # la configuración que queremos para nuestra aplicación
 app = Flask(__name__)     
-app.secret_key = "supersecretkey"
+
 
 app.register_blueprint(vista_usuarios.blueprint )
 
