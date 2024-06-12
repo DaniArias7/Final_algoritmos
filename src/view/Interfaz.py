@@ -57,10 +57,12 @@ Las instancias de Screen se agregan al ScreenManager para crear la estructura de
 con múltiples pantallas.
 """
 
+descripcion = "descripcion"
+aplicacion = "Aplicacion"
 
-class Mein_menu(Screen):
+class MainMenu(Screen):
     def __init__(self, **kwargs):
-        super(Mein_menu, self).__init__(**kwargs)
+        super(MainMenu, self).__init__(**kwargs)
 
         main_layout = BoxLayout(orientation='vertical')
 
@@ -72,30 +74,30 @@ class Mein_menu(Screen):
         header.add_widget(img)
         main_layout.add_widget(header)
 
-        Buttons_ = BoxLayout(orientation='vertical')
-        Button_one = Button(text="ir a la Descripcion", font_size=25, color=(0, 0, 1, 1),
+        buttons = BoxLayout(orientation='vertical')
+        button_one = Button(text="ir a la Descripcion", font_size=25, color=(0, 0, 1, 1),
                             bold=True, italic=True, font_name='Arial', on_press=self.go_to_tutorial)
 
-        Button_two = Button(text=("Ir a la aplicacion"), font_size=25, color=(0, 0, 1, 1),
+        button_two = Button(text=("Ir a la aplicacion"), font_size=25, color=(0, 0, 1, 1),
                             bold=True, italic=True, font_name='Arial', on_press=self.go_to_aplicacion)
-        Buttons_.add_widget(Button_one)
-        Buttons_.add_widget(Button_two)
-        main_layout.add_widget(Buttons_)
+        buttons.add_widget(button_one)
+        buttons.add_widget(button_two)
+        main_layout.add_widget(buttons)
 
         self.add_widget(main_layout)
 
     def go_to_tutorial(self, instance):
-        self.manager.current = "Descripción"
+        self.manager.current = descripcion
 
     def go_to_aplicacion(self, instance):
-        self.manager.current = "Aplicación"
+        self.manager.current = aplicacion
 
 
 class Description(Screen):
     def __init__(self, **kwargs):
         super(Description, self).__init__(**kwargs)
 
-        header_Description = BoxLayout(orientation='vertical')
+        header_description = BoxLayout(orientation='vertical')
 
         scroll_view = ScrollView()
 
@@ -125,27 +127,27 @@ Para llevar a cabo este cálculo, se utilizan varias constantes:
 """
         description_label = Label(text=text_description, font_size=20, size_hint_y=None, halign="justify", valign="top",
                                   font_name='Arial')
-        Text_proposito = Label(text="Proposito", font_size=30, bold=True, italic=True, font_name='Arial')
+        text_proposito = Label(text="Proposito", font_size=30, bold=True, italic=True, font_name='Arial')
         description_label.bind(texture_size=description_label.setter('size'))
-        text_layout.add_widget(Text_proposito)
+        text_layout.add_widget(text_proposito)
         text_layout.add_widget(description_label)
         scroll_view.add_widget(text_layout)
-        header_Description.add_widget(scroll_view)
+        header_description.add_widget(scroll_view)
 
-        Contenedor_botones = BoxLayout(orientation="vertical", size_hint=(0.5, 0.8))
-        Contenedor_botones.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        contenedor_botones = BoxLayout(orientation="vertical", size_hint=(0.5, 0.8))
+        contenedor_botones.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
         button_next = Button(text="ir a la Aplicación", on_press=self.go_to_aplicacion)
-        button_back = Button(text="Regresar al menú principal", on_press=self.go_to_Mein_menu)
-        Contenedor_botones.add_widget(button_next)
-        Contenedor_botones.add_widget(button_back)
-        header_Description.add_widget(Contenedor_botones)
-        self.add_widget(header_Description)
+        button_back = Button(text="Regresar al menú principal", on_press=self.go_to_MainMenu)
+        contenedor_botones.add_widget(button_next)
+        contenedor_botones.add_widget(button_back)
+        header_description.add_widget(contenedor_botones)
+        self.add_widget(header_description)
 
-    def go_to_Mein_menu(self, instance):
+    def go_to_MainMenu(self, instance):
         self.manager.current = 'Menu Principal'
 
     def go_to_aplicacion(self, instance):
-        self.manager.current = "Aplicación"
+        self.manager.current = aplicacion
 
 
 class aplicacion(Screen):
@@ -170,13 +172,13 @@ class aplicacion(Screen):
             self.text_inputs[index] = TextInput(font_size=30)
             contenedor.add_widget(self.text_inputs[index])
 
-        self.button_menu = Button(text="Menu principal", on_press=self.go_to_Mein_menu)
+        self.button_menu = Button(text="Menu principal", on_press=self.go_to_MainMenu)
         contenedor.add_widget(self.button_menu)
 
         self.button_calculator = Button(text="Calcular",on_press=self.Result_payment)
         contenedor.add_widget(self.button_calculator)
     
-        self.button_description = Button(text="Descripción", on_press=self.go_to_description)
+        self.button_description = Button(text=descripcion, on_press=self.go_to_description)
         contenedor.add_widget(self.button_description)
 
         imgudm = Image(source=r'\3192b796-96f1-4894-a3f0-98e88584ce1e.png')
@@ -220,15 +222,15 @@ class aplicacion(Screen):
     def validar(self):
         for key, value in self.text_inputs.items():
             if not value.text:
-                raise Exception(f"El Valor de {key} no puede estar vacío")
+                raise ValueError(f"El Valor de {key} no puede estar vacío")
             try:
-                float_value = float(value.text)
+                float(value.text)
             except ValueError:
-                raise Exception(f"El Valor de {key} debe ser un número válido")
+                raise ValueError(f"El Valor de {key} debe ser un número válido")
         
         for key, value in self.text_inputs.items():
             if 0 > float(value.text):
-                raise Exception(f"El Valor de {key} no puede ser negativo")
+                raise ValueError(f"El Valor de {key} no puede ser negativo")
    
    
     def mostrar_error(self, err):
@@ -262,9 +264,9 @@ class aplicacion(Screen):
         self.labels_respuestas["Subsidion de transporte"].text=str(calculate_transportation_aid(self.transportation_aid, self.basic_salary))
         self.labels_respuestas["Valor horas extras diurnas"].text=str(round(calculate_extra_hours(self.basic_salary, self.dayshift_extra_hours,mp.EXTRA_HOUR_DAYSHIFT),2))
         self.labels_respuestas["valor horas extra nocturnas"].text=str(round(calculate_extra_hours(self.basic_salary, self.nightshift_extra_hours,mp.EXTRA_HOUR_NIGHTSHIFT),2))
-        values_hours_HOLIDAYS= calculate_extra_hours(self.basic_salary,self.dayshift_extra_hours_holidays,mp.EXTRA_HOUR_DAYSHIFT_HOLIDAYS)+calculate_extra_hours(self.basic_salary,self.nightshift_extra_hours_holidays,
+        values_hours_holidays= calculate_extra_hours(self.basic_salary,self.dayshift_extra_hours_holidays,mp.EXTRA_HOUR_DAYSHIFT_HOLIDAYS)+calculate_extra_hours(self.basic_salary,self.nightshift_extra_hours_holidays,
                                             mp.EXTRA_HOUR_NIGHTSHIFT_HOLIDAYS)
-        self.labels_respuestas["Valor horas extras festivas"].text=str(round(values_hours_HOLIDAYS,2))
+        self.labels_respuestas["Valor horas extras festivas"].text=str(round(values_hours_holidays,2))
         self.labels_respuestas["valor aporte salud"].text=str(round(calculate_health_insurance(self.basic_salary, self.percentage_health_insurance),2))
         self.labels_respuestas["valor aporte pension"].text=str(round(calculate_retirement_insurance(self.basic_salary, self.percentage_retirement_insurance),2))
         self.labels_respuestas["valor aporte solidadrio"].text=str(round(calculate_retirement_fund(self.basic_salary,self.percentage_retirement_fund),2))
@@ -280,19 +282,19 @@ class aplicacion(Screen):
         popup.open()
 
     
-    def go_to_Mein_menu(self, instance):
+    def go_to_MainMenu(self, instance):
         self.manager.current = 'Menu Principal'
 
     def go_to_description(self, instance):
-        self.manager.current = "Descripción"
+        self.manager.current = descripcion
      
 
 class nomina_calculator(App):
     def build(self):
         boss_screen = ScreenManager()
-        boss_screen.add_widget(Mein_menu(name="Menu Principal"))
-        boss_screen.add_widget(Description(name="Descripción"))
-        boss_screen.add_widget(aplicacion(name="Aplicación"))
+        boss_screen.add_widget(MainMenu(name="Menu Principal"))
+        boss_screen.add_widget(Description(name=descripcion))
+        boss_screen.add_widget(aplicacion(name=aplicacion))
         return boss_screen
 
 
