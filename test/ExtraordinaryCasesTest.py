@@ -40,7 +40,7 @@ class MonthlyPaymentExtraordinary(unittest.TestCase):
         result_total_to_pay = mp.calculate_settlement(settlement_params)
 
         # We compare the result with the expected value using self.assertEqual.
-        self.assertEqual(total_to_pay, round(result_total_to_pay, 2))
+        self.assertAlmostEqual(total_to_pay, round(result_total_to_pay, 2), places=2)
 
     def test_evaluate_case_license(self):
         # Input data
@@ -73,7 +73,7 @@ class MonthlyPaymentExtraordinary(unittest.TestCase):
         result_total_to_pay = mp.calculate_settlement(settlement_params)
 
         # We compare the result with the expected value using self.assertEqual.
-        self.assertEqual(total_to_pay, round(result_total_to_pay, 2))
+        self.assertAlmostEqual(total_to_pay, round(result_total_to_pay, 2), places=2)
 
     def test_evaluate_disability_case(self):
         # Input data
@@ -106,7 +106,7 @@ class MonthlyPaymentExtraordinary(unittest.TestCase):
         result_total_to_pay = mp.calculate_settlement(settlement_params)
 
         # We compare the result with the expected value using self.assertEqual.
-        self.assertEqual(total_to_pay, round(result_total_to_pay, 2))
+        self.assertAlmostEqual(total_to_pay, round(result_total_to_pay, 2), places=2)
 
     def test_evaluate_dayshift_overtime(self):
         # Input data
@@ -139,7 +139,7 @@ class MonthlyPaymentExtraordinary(unittest.TestCase):
         result_total_to_pay = mp.calculate_settlement(settlement_params)
 
         # We compare the result with the expected value using self.assertEqual.
-        self.assertEqual(total_to_pay, round(result_total_to_pay, 2))
+        self.assertAlmostEqual(total_to_pay, round(result_total_to_pay, 2), places=2)
 
     def test_evaluate_salaries_above_five_min_wages(self):
         # Input data
@@ -172,7 +172,7 @@ class MonthlyPaymentExtraordinary(unittest.TestCase):
         result_total_to_pay = mp.calculate_settlement(settlement_params)
 
         # We compare the result with the expected value using self.assertEqual.
-        self.assertEqual(total_to_pay, round(result_total_to_pay, 2))
+        self.assertAlmostEqual(total_to_pay, round(result_total_to_pay, 2), places=2)
 
     def test_evaluate_extra_hours_and_subsidies(self):
         # Input data
@@ -205,7 +205,7 @@ class MonthlyPaymentExtraordinary(unittest.TestCase):
         result_total_to_pay = mp.calculate_settlement(settlement_params)
 
         # We compare the result with the expected value using self.assertEqual.
-        self.assertEqual(total_to_pay, round(result_total_to_pay, 2))
+        self.assertAlmostEqual(total_to_pay, round(result_total_to_pay, 2), places=2)
 
     def test_evaluate_no_pension_contribution(self):
         # Input data
@@ -238,7 +238,7 @@ class MonthlyPaymentExtraordinary(unittest.TestCase):
         result_total_to_pay = mp.calculate_settlement(settlement_params)
 
         # We compare the result with the expected value using self.assertEqual.
-        self.assertEqual(total_to_pay, round(result_total_to_pay, 2))
+        self.assertAlmostEqual(total_to_pay, round(result_total_to_pay, 2), places=2)
 
     def test_evaluate_salary_between_zero_and_one_million(self):
         # Input data
@@ -271,7 +271,7 @@ class MonthlyPaymentExtraordinary(unittest.TestCase):
         result_total_to_pay = mp.calculate_settlement(settlement_params)
 
         # We compare the result with the expected value using self.assertEqual.
-        self.assertEqual(total_to_pay, round(result_total_to_pay, 2))
+        self.assertAlmostEqual(total_to_pay, round(result_total_to_pay, 2), places=2)
 
 
 if __name__ == '__main__':
