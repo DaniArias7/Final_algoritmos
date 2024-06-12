@@ -58,11 +58,10 @@ class Employerinput:
     solidarity_pension_fund_contribution_percentage : float
         Percentage of contribution to the solidarity pension fund.
     """
-    def __init__(self,name, id, basic_salary, monthly_worked_days, days_leave, transportation_allowance,
+    def __init__(self, name, id, basic_salary, monthly_worked_days, days_leave, transportation_allowance,
                  daytime_overtime_hours, nighttime_overtime_hours, daytime_holiday_overtime_hours,
                  nighttime_holiday_overtime_hours, sick_leave_days, health_contribution_percentage,
                  pension_contribution_percentage, solidarity_pension_fund_contribution_percentage):
-        
         self.name = name
         self.id = id
         self.basic_salary = basic_salary
@@ -107,7 +106,8 @@ class Employerinput:
         assert (self.pension_contribution_percentage == dbneon.pension_contribution_percentage)
         assert (self.solidarity_pension_fund_contribution_percentage == dbneon.solidarity_pension_fund_contribution_percentage)
     
-    def primary_key(name, id, module):
+    @classmethod
+    def primary_key(cls, name, id, module):
         """
         Check if the given name and id combination already exists in the database.
 
@@ -130,13 +130,13 @@ class Employerinput:
             raise faileprimarykey("Ya ingresaste este usuario: {} - {}".format(name, id))
         
     @staticmethod
-    def notexist(employer):
+    def notexist(self):
         """
         Check if any attribute of the employer object is None.
 
         Parameters:
         -----------
-        employer : Employerinput
+        self : Employerinput
             An instance of the Employerinput class.
 
         Raises:
@@ -145,16 +145,17 @@ class Employerinput:
             If any attribute of the employer object is None.
         """
         # Verificar si algún atributo es None
-        if any(value is None for value in employer.__dict__.values()):
+        if any(value is None for value in self.__dict__.values()):
             raise not_exist("Falta un valor al crear la clase Employerinput")
     
-    def valor_presente(atributo):
+    @staticmethod
+    def valor_presente(self):
         """
         Check if the given attribute is present in the list of expected attributes.
 
         Parameters:
         -----------
-        atributo : str
+        self : str
             The name of the attribute to check.
 
         Raises:
@@ -162,12 +163,11 @@ class Employerinput:
         updatenotfount:
             If the given attribute is not found in the list of expected attributes.
         """
-        lista_atributos=parametros_constructor = [
-                                            "name", "id", "basic_salary", "monthly_worked_days", "days_leave", "transportation_allowance",
-                                            "daytime_overtime_hours", "nighttime_overtime_hours", "daytime_holiday_overtime_hours",
-                                            "nighttime_holiday_overtime_hours", "sick_leave_days", "health_contribution_percentage",
-                                            "pension_contribution_percentage", "solidarity_pension_fund_contribution_percentage"]
-        if atributo  not in lista_atributos:
+        lista_atributos = ["name", "id", "basic_salary", "monthly_worked_days", "days_leave", "transportation_allowance",
+                          "daytime_overtime_hours", "nighttime_overtime_hours", "daytime_holiday_overtime_hours",
+                          "nighttime_holiday_overtime_hours", "sick_leave_days", "health_contribution_percentage",
+                          "pension_contribution_percentage", "solidarity_pension_fund_contribution_percentage"]
+        if self not in lista_atributos:
             raise updatenotfount("no se encuentra el valor para realizar el update")
     
 
@@ -216,9 +216,9 @@ class Employeroutput():
         Total amount to be paid to the employer.
     """
 
-    def __init__(self, name,id,basic_salary, workdays, sick_leave, transportation_aid, dayshift_extra_hours, nightshift_extra_hours,
+    def __init__(self, name, id, basic_salary, workdays, sick_leave, transportation_aid, dayshift_extra_hours, nightshift_extra_hours,
                  dayshift_extra_hours_holidays, nightshift_extra_hours_holidays, leave_days, percentage_health_insurance,
-                 percentage_retirement_insurance, percentage_retirement_fund,devengado,deducido,amounttopay):
+                 percentage_retirement_insurance, percentage_retirement_fund, devengado, deducido, amounttopay):
         self.name = name
         self.id = id
         self.basic_salary = basic_salary
@@ -233,9 +233,9 @@ class Employeroutput():
         self.percentage_health_insurance = percentage_health_insurance
         self.percentage_retirement_insurance = percentage_retirement_insurance
         self.percentage_retirement_fund = percentage_retirement_fund
-        self.devengado=devengado
-        self.deducido=deducido
-        self.amounttopay=amounttopay
+        self.devengado = devengado
+        self.deducido = deducido
+        self.amounttopay = amounttopay
     
     def Isequivalent(self, dbneon):
         """
@@ -270,13 +270,14 @@ class Employeroutput():
         assert (self.amounttopay == dbneon.amounttopay)
         return True
     
-    def employernotfound(query):
+    @staticmethod
+    def employernotfound(self):
         """
         Raise an exception if the queried employer is not found.
 
         Parameters:
         -----------
-        query : object
+        self : object
             The result of a query operation. If None, it indicates that the employer was not found.
 
         Raises:
@@ -284,6 +285,7 @@ class Employeroutput():
         not_found:
             If the queried employer is not found.
         """
-        if query is None:
-            raise not_found("no se ha encontrado su busqueda")   
+        if self is None:
+            raise not_found("no se ha encontrado su busqueda")
+   
             
