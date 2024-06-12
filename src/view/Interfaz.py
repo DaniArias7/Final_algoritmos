@@ -13,7 +13,7 @@ model_dir = os.path.join(project_dir, "Model")
 sys.path.append(project_dir)
 sys.path.append(model_dir)
 sys.path.append("./src")
-from Model.MonthlyPaymentLogic import *
+from Model.MonthlyPaymentLogic import calculate_salary, calculate_transportation_aid, calculate_extra_hours, calculate_health_insurance, calculate_retirement_insurance, calculate_retirement_fund, calculate_sick_leave, calculate_leave, calculate_salary_holdback, SettlementParameters, calculate_settlement, MINIMUM_WAGE, UVT, EXTRA_HOUR_DAYSHIFT, EXTRA_HOUR_NIGHTSHIFT, EXTRA_HOUR_DAYSHIFT_HOLIDAYS, EXTRA_HOUR_NIGHTSHIFT_HOLIDAYS, MONTH_DAYS, MONTH_HOURS, PERCENTAGE_HEALTH_INSURANCE, PERCENTAGE_RETIREMENT_FUND
 import Model.MonthlyPaymentLogic as mp
 
 from kivy.app import App  # Es necesario para iniciar y ejecutar una aplicación Kivy.
