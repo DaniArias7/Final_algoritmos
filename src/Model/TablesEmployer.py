@@ -1,7 +1,7 @@
 import sys
 import os
-from MonthlyPaymentLogic import *
-
+from MonthlyPaymentLogic import calculate_salary, calculate_transportation_aid, calculate_extra_hours, calculate_health_insurance, calculate_retirement_insurance, calculate_retirement_fund, MINIMUM_WAGE, UVT, EXTRA_HOUR_DAYSHIFT, EXTRA_HOUR_NIGHTSHIFT, EXTRA_HOUR_DAYSHIFT_HOLIDAYS, EXTRA_HOUR_NIGHTSHIFT_HOLIDAYS, MONTH_DAYS, MONTH_HOURS, PERCENTAGE_HEALTH_INSURANCE, PERCENTAGE_RETIREMENT_FUND
+import MonthlyPaymentLogic as mp
 
 # Obtenemos la ruta del directorio actual del script
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -10,10 +10,6 @@ project_dir = os.path.abspath(os.path.join(current_dir, ".."))
 # Agregamos el directorio principal del proyecto al sys.path
 sys.path.append(project_dir)
 
-# Ahora podemos importar los módulos del proyecto
-from MonthlyPaymentLogic import *
-import MonthlyPaymentLogic as mp
-#from Controller.Controladortablas import WorkersIncomeData
 
 class faileprimarykey(Exception):
     pass
