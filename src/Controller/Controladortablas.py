@@ -26,17 +26,19 @@ import securitydb as st
 
 class WorkersIncomeData:
 
-    def get_cursor():
+    @classmethod
+    def get_cursor(cls):
         """ Establishes connection to the database and returns a cursor for querying """
         connection = psycopg2.connect(database=st.PGDATABASE, user=st.PGUSER, password=st.PGPASSWORD, host=st.PGHOST, port=st.PGPORT)
         # All statements are executed through a cursor
         cursor = connection.cursor()
         return cursor
     
-    def create_table():
+    @classmethod
+    def create_table(cls):
         """ Creates the user table in the database """
         try:
-            cursor =  WorkersIncomeData.get_cursor()
+            cursor =  cls.get_cursor()
             cursor.execute("""CREATE TABLE Employerinput(
                         name varchar(300)  NOT NULL,
                         id varchar(300) PRIMARY KEY NOT NULL,
@@ -57,7 +59,8 @@ class WorkersIncomeData:
             pass
     
     
-    def drop_table():
+    @classmethod
+    def drop_table(cls):
         """
         Drop the 'Employerinput' table if it exists in the database.
 
@@ -65,17 +68,18 @@ class WorkersIncomeData:
         If the table does not exist or any error occurs during the execution, it is ignored.
         """
         try:
-            cursor=WorkersIncomeData.get_cursor()
+            cursor=cls.get_cursor()
             cursor.execute(""" DROP TABLE Employerinput""")
             cursor.connection.commit()
         except:
             pass
     
-    def insert(employer: Temployer.Employerinput):
+    @classmethod
+    def insert(cls, employer: Temployer.Employerinput):
         """  insert an employer's data into the 'Employerinput' table."""
         try:
-            cursor =  WorkersIncomeData.get_cursor()
-            Temployer.Employerinput.primary_key(employer.name,employer.id, WorkersIncomeData)
+            cursor =  cls.get_cursor()
+            Temployer.Employerinput.primary_key(employer.name,employer.id, cls)
             Temployer.Employerinput.notexist(employer)
             cursor.execute(f""" INSERT INTO Employerinput  (name, id, basic_salary, monthly_worked_days, 
                                 days_leave, transportation_allowance, daytime_overtime_hours, nighttime_overtime_hours, 
@@ -97,20 +101,22 @@ class WorkersIncomeData:
     
     
     
-    def delete_worker(name,id):
+    @classmethod
+    def delete_worker(cls, name,id):
         """  Delete a worker from the 'Employerinput' table based on the provided name and id. """
-        cursor =  WorkersIncomeData.get_cursor() 
+        cursor =  cls.get_cursor() 
         cursor.execute(f""" DELETE 
                         FROM Employerinput
                         WHERE name= '{name}' AND id='{id}'; 
                         """)
         cursor.connection.commit() 
     
-    def update(name,id,keyupdate,valueupdate):
+    @classmethod
+    def update(cls, name,id,keyupdate,valueupdate):
         """ update a worker's data in the 'Employerinput' table."""
         try:
             Temployer.Employerinput.valor_presente(keyupdate)
-            cursor =  WorkersIncomeData.get_cursor()
+            cursor =  cls.get_cursor()
             cursor.execute(f""" update Employerinput
                             SET {keyupdate} = {valueupdate}
                             WHERE name= '{name}' AND id='{id}'; 
@@ -120,9 +126,10 @@ class WorkersIncomeData:
             #cursor.connection.rollback()
             pass
 
-    def query_worker(name, id):
+    @classmethod
+    def query_worker(cls, name, id):
         """ Query the data of a worker from the 'Employerinput' table based on the provided name and id. """
-        cursor = WorkersIncomeData.get_cursor()
+        cursor = cls.get_cursor()
         cursor.execute(f"""SELECT * FROM Employerinput WHERE name = '{name}' AND id = '{id}';""")
         fila = cursor.fetchone()
 
@@ -147,20 +154,24 @@ class WorkersIncomeData:
                                             solidarity_pension_fund_contribution_percentage=fila[13])
             return result
         
+
+ 
         
 class  WorkersoutputsData():
     
-    def get_cursor():
+    @classmethod
+    def get_cursor(cls):
         """ Establishes connection to the database and returns a cursor for querying """
         connection = psycopg2.connect(database=st.PGDATABASE, user=st.PGUSER, password=st.PGPASSWORD, host=st.PGHOST, port=st.PGPORT)
         # All statements are executed through a cursor
         cursor = connection.cursor()
         return cursor
     
-    def create_table():
+    @classmethod
+    def create_table(cls):
         """ Creates the user table in the database """
         try:
-            cursor = WorkersoutputsData.get_cursor()
+            cursor = cls.get_cursor()
             cursor.execute("""CREATE TABLE Employeroutput(
                         name varchar(300) NOT NULL,
                         id varchar(300) PRIMARY KEY NOT NULL,
@@ -183,21 +194,23 @@ class  WorkersoutputsData():
         except:
             pass
 
-    def drop_table():
+    @classmethod
+    def drop_table(cls):
         """ Drop the 'Employeroutput' table if it exists in the database. """
         try:
-            cursor=WorkersoutputsData.get_cursor()
+            cursor=cls.get_cursor()
             cursor.execute(""" DROP TABLE Employeroutput""")
             cursor.connection.commit()
         except:
             pass
     
-    def PopulateTable():
+    @classmethod
+    def PopulateTable(cls):
         """ Populate the 'Employeroutput' table based on the data from the 'Employerinput' table.
 
             This function retrieves data from the 'Employerinput' table and calculates additional attributes 
             based on the provided data. It then inserts the calculated data into the 'Employeroutput' table."""
-        cursor = WorkersoutputsData.get_cursor()
+        cursor = cls.get_cursor()
         cursorWorkersIncomeData = WorkersIncomeData.get_cursor()
         cursorWorkersIncomeData.execute("SELECT * FROM Employerinput")
         employers = cursorWorkersIncomeData.fetchall()  # Obtener todas las filas
@@ -233,7 +246,8 @@ class  WorkersoutputsData():
                     FROM Employerinput where name='{employer[0]}' and id='{employer[1]}' ;""")  # Agregar una cláusula WHERE para filtrar por el id del empleador
             cursor.connection.commit()
 
-    def query_worker(name, id):
+    @classmethod
+    def query_worker(cls, name, id):
         """ Query the data of a worker from the 'Employeroutput' table based on the provided name and id. """
         cursor = WorkersIncomeData.get_cursor()
         cursor.execute(f"""SELECT * FROM Employeroutput WHERE name = '{name}' AND id = '{id}';""")
