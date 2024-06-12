@@ -18,7 +18,7 @@ sys.path.append(".")
 
 
 # Importaciones
-from Model.MonthlyPaymentLogic import *
+from Model.MonthlyPaymentLogic import  calculate_salary, calculate_leave, calculate_transportation_aid, calculate_extra_hours, calculate_sick_leave, calculate_health_insurance, calculate_retirement_insurance, calculate_retirement_fund, calculate_accrued_values, calculate_deducted_values, calculate_settlement, SettlementParameters
 import Model.MonthlyPaymentLogic as mp
 import Model.TablesEmployer as Temployer
 import securitydb as st
