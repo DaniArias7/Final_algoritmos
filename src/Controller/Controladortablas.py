@@ -55,7 +55,7 @@ class WorkersIncomeData:
                         pension_contribution_percentage float  NOT NULL, 
                         solidarity_pension_fund_contribution_percentage float NOT NULL ); """)
             cursor.connection.commit()
-        except:
+        except psycopg2.Error as e:
             pass
     
     
@@ -71,7 +71,7 @@ class WorkersIncomeData:
             cursor=cls.get_cursor()
             cursor.execute(""" DROP TABLE Employerinput""")
             cursor.connection.commit()
-        except:
+        except psycopg2.Error as e:
             pass
     
     @classmethod
@@ -191,7 +191,7 @@ class  WorkersoutputsData():
                         deducido float NOT NULL,  
                         amounttopay float NOT NULL) ; """)
             cursor.connection.commit()
-        except:
+        except psycopg2.Error as e:
             pass
 
     @classmethod
@@ -201,7 +201,7 @@ class  WorkersoutputsData():
             cursor=cls.get_cursor()
             cursor.execute(""" DROP TABLE Employeroutput""")
             cursor.connection.commit()
-        except:
+        except psycopg2.Error as e:
             pass
     
     @classmethod
