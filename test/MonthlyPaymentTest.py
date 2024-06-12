@@ -41,7 +41,7 @@ class TestMonthlyPayment(unittest.TestCase):
         result_total_to_pay = mp.calculate_settlement(settlement_params)
 
         # We compare the result with the expected value using self.assertAlmostEqual.
-        self.assertAlmostEqual(total_to_pay, round(result_total_to_pay, 2))
+        self.assertAlmostEqual(total_to_pay, result_total_to_pay, places=2)
 
     def test_regular_case_two(self):
         # Input data
@@ -74,7 +74,7 @@ class TestMonthlyPayment(unittest.TestCase):
         result_total_to_pay = mp.calculate_settlement(settlement_params)
 
         # We compare the result with the expected value using self.assertAlmostEqual.
-        self.assertAlmostEqual(total_to_pay, round(result_total_to_pay, 2))
+        self.assertAlmostEqual(total_to_pay, result_total_to_pay, places=2)
 
     def test_regular_case_three(self):
         # Input data
