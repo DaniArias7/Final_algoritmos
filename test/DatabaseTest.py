@@ -84,9 +84,9 @@ class ControllerTest(unittest.TestCase):
 
     def testerrorprimarykey(self):
         name_employer = 'robert'
-        id = '430380'
+        employee_id = '430380'
         employer = Temployer.Employerinput(
-            name=name_employer, id=id, basic_salary=1600000, monthly_worked_days=30, days_leave=0,
+            name=name_employer, id=employee_id, basic_salary=1600000, monthly_worked_days=30, days_leave=0,
             transportation_allowance=160000, daytime_overtime_hours=0,
             nighttime_overtime_hours=0, daytime_holiday_overtime_hours=0,
             nighttime_holiday_overtime_hours=0, sick_leave_days=0, health_contribution_percentage=0.04,

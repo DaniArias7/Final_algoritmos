@@ -183,17 +183,17 @@ def update_employer():
 def delete_employer():
     name = input(nombre)
     worker_id = input(worker_id)
-    WorkersIncomeData.delete_worker(name,worker_id)
+    WorkersIncomeData.delete_worker(name,id)
 
 
 def query_employees_page():
     name = input(nombre)
     worker_id = input(worker_id)
-    findemployer =WorkersoutputsData.QueryWorker(name,worker_id)
+    findemployer =WorkersoutputsData.QueryWorker(name,id)
     
     data_series = pd.Series({
     "Nombre": findemployer.name,
-    "Cédula": findemployer.worker_id,
+    "Cédula": findemployer.id,
     salario_basico: findemployer.basic_salary,
     dias_trabajados: findemployer.workdays,
     dias_licencia: findemployer.leave_days,
