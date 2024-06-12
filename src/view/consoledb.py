@@ -20,19 +20,36 @@ import Model.TablesEmployer as Temployer
 import pandas as pd
 
 
-print(f"""Bienvenido a este calculador de nómina, el cual va a tener la posibilidad de conectarse a una base de datos.
+print("""Bienvenido a este calculador de nómina, el cual va a tener la posibilidad de conectarse a una base de datos.
            Dentro de las siguientes características que va a tener el programa están las siguientes: primero, puedes construir 
            una tabla inicial en la cual puedes insertar tus trabajadores y asignarles las características de sus sueldos
            correspondientes como "salario básico", "días mensuales laborados", "días de licencia", "ayuda de transporte", "horas extra diurnas",
            "horas extra nocturnas", "horas extra diurnas festivos", "horas extra nocturnas festivos", "días de licencia por enfermedad",
            "porcentaje de aporte a salud", "porcentaje de aporte a pensión", "porcentaje de aporte a fondo de solidaridad pensional".""")
 
-print(f"""Además de esto, a esta tabla podrás actualizar los datos, eliminarlos, insertar y hacer consultas sobre los trabajadores.""")
+print("""Además de esto, a esta tabla podrás actualizar los datos, eliminarlos, insertar y hacer consultas sobre los trabajadores.""")
 
 print()
 
-print(f"""Ahora bien, también puedes acceder a la segunda tabla, la cual va a contener información de los pagos a los trabajadores. 
+print("""Ahora bien, también puedes acceder a la segunda tabla, la cual va a contener información de los pagos a los trabajadores. 
             A esta tabla podrás hacer consultas y ver todo lo referente a los trabajadores.""")
+
+#CONSTANTES
+nombre = "Ingresa el nombre del trabajador: "
+cedula = "ingresa la cedula del trabajador:"
+salario_basico = "salario basico"
+dias_trabajados = "dias trabajador"
+dias_licencia = "Días de licencia"
+sub_transporte = "Subsidio de transporte"
+horas_ext_diu = "Horas extras diurnas"
+horas_ext_noc = "Horas extras nocturnas"
+horas_ext_di_f= "Horas extras diurnas en días festivos"
+horas_ext_noc_f ="Horas extras nocturnas en días festivos"
+dias_incapacidad =  "Días de incapacidad"
+por_contri_salud = "Porcentaje de contribución a salud"
+por_contri_pension= "Porcentaje de contribución a pensión"
+por_contri_fondo ="Porcentaje de contribución al fondo de solidaridad pensional"
+
 
 def createtables():
     WorkersIncomeData.drop_table()
@@ -42,8 +59,8 @@ def createtables():
 
 def getemployer():
     "Ingresa la siguiente información del trabajador"
-    name = input("Ingresa el nombre del trabajador: ")
-    id = input("Ingresa la cédula del trabajador: ")
+    name = input(nombre)
+    employee_id  = input(cedula)
     basic_salary = float(input("Ingresa el salario básico del empleado: "))
     monthly_worked_days = int(input("Ingresa el valor de días trabajados por el empleado: ")) 
     days_leave = int(input("Ingresa el número de días de licencia del empleado: "))
@@ -59,7 +76,7 @@ def getemployer():
 
     employer_info = {
         "name": name,
-        "id": id,
+        "id": employee_id ,
         "basic_salary": basic_salary,
         "monthly_worked_days": monthly_worked_days,
         "days_leave": days_leave,
@@ -97,8 +114,8 @@ def insert_employer():
     print("se realizo con exito la insercion de trabajadores") 
 
 def query_employees():
-    name = input("Ingresa el nombre del trabajador: ")
-    id = input("Ingresa la cédula del trabajador: ")
+    name = input(nombre)
+    id = input(cedula)
     
     findemployer = WorkersIncomeData.query_worker(name, id)
     
@@ -106,18 +123,18 @@ def query_employees():
         data_series = pd.Series({
             "Nombre": findemployer.name,
             "Cédula": findemployer.id,
-            "Salario básico": findemployer.basic_salary,
-            "Días trabajados": findemployer.monthly_worked_days,
-            "Días de licencia": findemployer.days_leave,
-            "Subsidio de transporte": findemployer.transportation_allowance,
-            "Horas extras diurnas": findemployer.daytime_overtime_hours,
-            "Horas extras nocturnas": findemployer.nighttime_overtime_hours,
-            "Horas extras diurnas en días festivos": findemployer.daytime_holiday_overtime_hours,
-            "Horas extras nocturnas en días festivos": findemployer.nighttime_holiday_overtime_hours,
-            "Días de incapacidad": findemployer.sick_leave_days,
-            "Porcentaje de contribución a salud": findemployer.health_contribution_percentage,
-            "Porcentaje de contribución a pensión": findemployer.pension_contribution_percentage,
-            "Porcentaje de contribución al fondo de solidaridad pensional": findemployer.solidarity_pension_fund_contribution_percentage
+            salario_basico: findemployer.basic_salary,
+            dias_trabajados: findemployer.monthly_worked_days,
+            dias_licencia: findemployer.days_leave,
+            sub_transporte: findemployer.transportation_allowance,
+            horas_ext_diu: findemployer.daytime_overtime_hours,
+            horas_ext_noc: findemployer.nighttime_overtime_hours,
+            horas_ext_di_f: findemployer.daytime_holiday_overtime_hours,
+            horas_ext_noc_f: findemployer.nighttime_holiday_overtime_hours,
+            dias_incapacidad: findemployer.sick_leave_days,
+            por_contri_salud : findemployer.health_contribution_percentage,
+            por_contri_pension: findemployer.pension_contribution_percentage,
+            por_contri_fondo: findemployer.solidarity_pension_fund_contribution_percentage
         })
         print(data_series)
     else:
@@ -125,25 +142,25 @@ def query_employees():
 
 def obtener_significado(valor):
     significados = {
-        "Salario básico": "basic_salary",
-        "Días trabajados": "monthly_worked_days",
-        "Días de licencia": "days_leave",
-        "Subsidio de transporte": "transportation_allowance",
-        "Horas extras diurnas": "daytime_overtime_hours",
-        "Horas extras nocturnas": "nighttime_overtime_hours",
-        "Horas extras diurnas en días festivos": "daytime_holiday_overtime_hours",
-        "Horas extras nocturnas en días festivos": "nighttime_holiday_overtime_hours",
-        "Días de incapacidad": "sick_leave_days",
-        "Porcentaje de contribución a salud": "health_contribution_percentage",
-        "Porcentaje de contribución a pensión": "pension_contribution_percentage",
-        "Porcentaje de contribución al fondo de solidaridad pensional": "solidarity_pension_fund_contribution_percentage"
+        salario_basico: "basic_salary",
+        dias_trabajados: "monthly_worked_days",
+        dias_licencia: "days_leave",
+        sub_transporte: "transportation_allowance",
+        horas_ext_diu:  "daytime_overtime_hours",
+        horas_ext_noc: "nighttime_overtime_hours",
+        horas_ext_di_f: "daytime_holiday_overtime_hours",
+        horas_ext_noc_f: "nighttime_holiday_overtime_hours",
+        dias_incapacidad: "sick_leave_days",
+        por_contri_salud : "health_contribution_percentage",
+        por_contri_pension: "pension_contribution_percentage",
+        por_contri_fondo:  "solidarity_pension_fund_contribution_percentage"
     }
 
     return significados.get(valor, "Valor desconocido")
 
 def update_employer():
-        name=input("ingrese el nombre del empleado:  ")
-        id=input("ingrese la cedula del trabajador:  ")
+        name=input(nombre)
+        id=input(cedula)
         print("""columnas que puedes cambiar 
                 Salario básico
                 Días trabajados
@@ -164,36 +181,36 @@ def update_employer():
         WorkersIncomeData.update(name,id,KEYUPDATE=KEYUPDATE, VALUEUPDATE=VALUEUPDATE)
 
 def delete_employer():
-    name = input("Ingresa el nombre del trabajador: ")
-    id = input("Ingresa la cédula del trabajador: ")
+    name = input(nombre)
+    id = input(id)
     WorkersIncomeData.delete_worker(name,id)
 
 
 def query_employees_page():
-    name = input("Ingresa el nombre del trabajador: ")
-    id = input("Ingresa la cédula del trabajador: ")
+    name = input(nombre)
+    id = input(id)
     findemployer =WorkersoutputsData.QueryWorker(name,id)
     
     data_series = pd.Series({
     "Nombre": findemployer.name,
     "Cédula": findemployer.id,
-    "Salario básico": findemployer.basic_salary,
-    "Días trabajados": findemployer.workdays,
-    "Días de licencia": findemployer.leave_days,
-    "Subsidio de transporte": findemployer.transportation_aid,
-    "Horas extras diurnas": findemployer.dayshift_extra_hours,
-    "Horas extras nocturnas": findemployer.nightshift_extra_hours,
-    "Horas extras diurnas en días festivos": findemployer.dayshift_extra_hours_holidays,
-    "Horas extras nocturnas en días festivos": findemployer.nightshift_extra_hours_holidays,
-    "Días de incapacidad": findemployer.sick_leave,
-    "Porcentaje de contribución a salud": findemployer.percentage_health_insurance,
-    "Porcentaje de contribución a pensión": findemployer.percentage_retirement_insurance,
-    "Porcentaje de contribución al fondo de solidaridad pensional": findemployer.percentage_retirement_fund,
+    salario_basico: findemployer.basic_salary,
+    dias_trabajados: findemployer.workdays,
+    dias_licencia: findemployer.leave_days,
+    sub_transporte: findemployer.transportation_aid,
+    horas_ext_diu: findemployer.dayshift_extra_hours,
+    horas_ext_noc: findemployer.nightshift_extra_hours,
+    horas_ext_di_f: findemployer.dayshift_extra_hours_holidays,
+    horas_ext_noc_f: findemployer.nightshift_extra_hours_holidays,
+    dias_incapacidad: findemployer.sick_leave,
+    por_contri_salud : findemployer.percentage_health_insurance,
+    por_contri_pension: findemployer.percentage_retirement_insurance,
+    por_contri_fondo: findemployer.percentage_retirement_fund,
     "Devengado":findemployer.devengado,
     "deducido": findemployer.deducido,
     "total a pagar":findemployer.amounttopay
     })
-    
+      
     print(data_series)
 createtables()
 
