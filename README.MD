@@ -1,8 +1,10 @@
 # README
 
 ## Autores
-* Luis Miguel Giraldo  
+* Juliana Betancur  
 * Daniel Alzate Arias
+* Miguel Herazo
+* Dilan Anaya
 
 # ¿Para qué sirve?
 
