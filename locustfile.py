@@ -1,18 +1,66 @@
 from locust import HttpUser, between, task
 from faker import Faker
+import random
+import logging
+
+# Configura el logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 fake = Faker()
 
 class MyUser(HttpUser):
-    wait_time = between(0,1)  # Tiempo de espera entre las tareas, en segundos
+    wait_time = between(5, 15)  # Tiempo de espera entre las tareas, en segundos
 
     @task
-    def visitar_pagina_inicio(self):
-        self.client.get("/")
+    def actualizar_usuario(self):
+        # Genera datos aleatorios para actualizar el usuario
+        nombre = fake.name()
+        cedula = fake.random_number(digits=10)
+        columnas = [
+            "basic_salary", "monthly_worked_days", "days_leave",
+            "transportation_allowance", "daytime_overtime_hours",
+            "nighttime_overtime_hours", "daytime_holiday_overtime_hours",
+            "nighttime_holiday_overtime_hours", "sick_leave_days",
+            "health_contribution_percentage", "pension_contribution_percentage",
+            "solidarity_pension_fund_contribution_percentage"
+        ]
+        columna = random.choice(columnas)
+        valor = fake.random_number(digits=5)
+
+        # Define los datos que se enviarán en la solicitud POST
+        data = {
+            "nombre": nombre,
+            "cedula": cedula,
+            "columna": columna,
+            "valor": valor
+        }
+
+        # Envía la solicitud POST para actualizar el usuario
+        response = self.client.post("/actualizar_usuario", data=data)
+
+        # Verifica la respuesta
+        if response.status_code == 200:
+            logger.info("Usuario actualizado exitosamente")
+        else:
+            logger.error(f"Error al actualizar usuario: {response.status_code}, {response.text}")
 
     @task
-    def ver_descripcion(self):
-        self.client.get("/description")
+    def buscar_usuario(self):
+        # Genera datos aleatorios para buscar el usuario
+        nombre = fake.first_name()
+        cedula = fake.random_number(digits=10)
+
+        # Envía la solicitud GET para buscar el usuario
+        response = self.client.get("/buscar-usuario", params={"nombre": nombre, "cedula": cedula})
+        
+        if response.status_code == 200:
+            # Simula que el usuario presiona el botón de búsqueda
+            result_response = self.client.get(f"/buscar_usuario_result?nombre={nombre}&cedula={cedula}")
+            if result_response.status_code != 200:
+                logger.error(f"Error al obtener resultados de búsqueda: {result_response.status_code}, {result_response.text}")
+        else:
+            logger.error(f"Error al buscar usuario: {response.status_code}, {response.text}")
 
     @task
     def crear_usuario(self):
@@ -51,28 +99,15 @@ class MyUser(HttpUser):
         }
 
         # Envia la solicitud POST para crear el nuevo usuario
-        self.client.post("/crear_usuario", data=data)
+        response = self.client.post("/crear_usuario", data=data)
 
-
-
-    @task
-    def buscar_usuario(self):
-        # Genera datos aleatorios para buscar el usuario
-        nombre = fake.first_name()
-        cedula = fake.random_number(digits=10)
-
-        # Envía la solicitud GET para buscar el usuario
-        response = self.client.get("/buscar-usuario", params={"nombre": nombre, "cedula": cedula})
-        
+        # Verifica la respuesta
         if response.status_code == 200:
-            # Simula que el usuario presiona el botón de búsqueda
-            self.client.get(f"/buscar_usuario_result?nombre={nombre}&cedula={cedula}")
+            logger.info("Usuario creado exitosamente")
         else:
-            print(f"Error al buscar usuario: {response.status_code}, {response.text}")
+            logger.error(f"Error al crear usuario: {response.status_code}, {response.text}")
 
-    @task
-    def actualizar_usuario(self):
-        self.client.get("/actualizar-usuario")
+
 
     @task
     def calcular_liquidacion(self):
