@@ -10,7 +10,11 @@ logger = logging.getLogger(__name__)
 fake = Faker()
 
 class MyUser(HttpUser):
-    wait_time = between(5, 15)  # Tiempo de espera entre las tareas, en segundos
+    wait_time = between(0,1)  # Tiempo de espera entre las tareas, en segundos
+
+    @task
+    def visitar_pagina_inicio(self):
+        self.client.get("/")
 
     @task
     def actualizar_usuario(self):
@@ -108,16 +112,44 @@ class MyUser(HttpUser):
             logger.error(f"Error al crear usuario: {response.status_code}, {response.text}")
 
 
-
     @task
     def calcular_liquidacion(self):
-        self.client.get("/calcular-liquidacion")
+        # Genera datos aleatorios para calcular la liquidación del empleado
+        nombre = fake.name()
+        cedula = fake.random_number(digits=10)
+
+        # Define los datos que se enviarán en la solicitud POST
+        data = {
+            "nombre": nombre,
+            "cedula": cedula
+        }
+
+        # Envía la solicitud POST para calcular la liquidación
+        response = self.client.post("/calcular-liquidacion", data=data)
+
+        # Verifica la respuesta
+        if response.status_code == 200:
+            logger.info("Liquidación calculada exitosamente")
+        else:
+            logger.error(f"Error al calcular liquidación: {response.status_code}, {response.text}")
 
     @task
     def eliminar_usuario(self):
-        self.client.get("/eliminar-usuario")
+        # Genera datos aleatorios para eliminar el usuario
+        nombre = fake.name()
+        cedula = fake.random_number(digits=10)
 
+        # Define los datos que se enviarán en la solicitud POST
+        data = {
+            "nombre": nombre,
+            "cedula": cedula
+        }
 
-    @task
-    def eliminar_usuario(self):
-        self.client.get("/eliminar-usuario")
+        # Envía la solicitud POST para eliminar el usuario
+        response = self.client.post("/eliminar_usuario", data=data)
+
+        # Verifica la respuesta
+        if response.status_code == 200:
+            logger.info("Usuario eliminado exitosamente")
+        else:
+            logger.error(f"Error al eliminar usuario: {response.status_code}, {response.text}")
