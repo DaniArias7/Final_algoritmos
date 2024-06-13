@@ -18,7 +18,7 @@ class MyUser(HttpUser):
     def crear_usuario(self):
         # Genera datos aleatorios para el nuevo usuario
         nombre = fake.name()
-        cedula = fake.random_number(digits=10)
+        cedula = fake.unique.ssn()
         salario = fake.random_number(digits=6)
         dias_trabajados = fake.random_number(digits=2)
         dias_enfermedad = fake.random_number(digits=1)
@@ -51,21 +51,24 @@ class MyUser(HttpUser):
         }
 
         # Envia la solicitud POST para crear el nuevo usuario
-        response = self.client.post("/crear_usuario", data=data)
+        self.client.post("/crear_usuario", data=data)
 
-    @task
-    def calculate_payment(self):
-        # Aquí iría la lógica para enviar una solicitud HTTP al endpoint /calculate_payment
-        payload = {
-            "basic_salary": 2000000,
-            "workdays": 22,
-            # Añade más campos según sea necesario
-        }
-        self.client.post("/calculate_payment", json=payload)
+
 
     @task
     def buscar_usuario(self):
-        self.client.get("/buscar-usuario")
+        # Genera datos aleatorios para buscar el usuario
+        nombre = fake.first_name()
+        cedula = fake.random_number(digits=10)
+
+        # Envía la solicitud GET para buscar el usuario
+        response = self.client.get("/buscar-usuario", params={"nombre": nombre, "cedula": cedula})
+        
+        if response.status_code == 200:
+            # Simula que el usuario presiona el botón de búsqueda
+            self.client.get(f"/buscar_usuario_result?nombre={nombre}&cedula={cedula}")
+        else:
+            print(f"Error al buscar usuario: {response.status_code}, {response.text}")
 
     @task
     def actualizar_usuario(self):
@@ -74,6 +77,11 @@ class MyUser(HttpUser):
     @task
     def calcular_liquidacion(self):
         self.client.get("/calcular-liquidacion")
+
+    @task
+    def eliminar_usuario(self):
+        self.client.get("/eliminar-usuario")
+
 
     @task
     def eliminar_usuario(self):
