@@ -53,7 +53,15 @@ class MyUser(HttpUser):
         # Envia la solicitud POST para crear el nuevo usuario
         response = self.client.post("/crear_usuario", data=data)
 
-
+    @task
+    def calculate_payment(self):
+        # Aquí iría la lógica para enviar una solicitud HTTP al endpoint /calculate_payment
+        payload = {
+            "basic_salary": 2000000,
+            "workdays": 22,
+            # Añade más campos según sea necesario
+        }
+        self.client.post("/calculate_payment", json=payload)
 
     @task
     def buscar_usuario(self):
